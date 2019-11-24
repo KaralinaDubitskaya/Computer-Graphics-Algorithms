@@ -58,7 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="algorithms\CoordTransformations.cs" />
     <Compile Include="models\Model.cs" />
+    <Compile Include="models\ModelParams.cs" />
     <Compile Include="models\Pixel.cs" />
     <Compile Include="parser\ObjParser.cs" />
     <Compile Include="utils\ObjFileReader.cs" />

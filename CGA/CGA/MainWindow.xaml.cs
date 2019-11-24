@@ -41,5 +41,20 @@ namespace CGA
                 MessageBox.Show("Произошла ошибка!");
             }
         }
+
+        private void DrawButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void NearPlaneDistanceSlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+          
+        }
+
+        private void FarPlaneDistanceSlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+         
+        }
     }
 }
