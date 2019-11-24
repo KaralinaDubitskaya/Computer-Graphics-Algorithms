@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Button x:Name="openFileButton" Content="Open" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.479,0.578" Height="33" Click="OpenFileButton_Click"/>
     </Grid>
 </Window>
