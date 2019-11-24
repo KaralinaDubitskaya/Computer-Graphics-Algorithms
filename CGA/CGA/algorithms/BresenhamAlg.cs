@@ -14,14 +14,23 @@ namespace CGA.algorithms
 
         public static void DrawModel(Bgr24Bitmap bitmap, Model model, Color color)
         {
+            var faces = model.Faces;
 
+            // Parallel.ForEach(facesList, face =>
+            foreach (var face in faces)
+            {
+                //if (IsFaceVisible(face))
+                //{
+                //    DrawFace(face);
+                //}
+            };
         }
 
         #endregion
 
         #region Private methods
-        // Целочисленный алгоритм Брезенхема
-        private static void AddPixelsForSide(Bgr24Bitmap bitmap, Pixel src, Pixel desc, Color color)
+        // Целочисленный алгоритм Брезенхема для отрисовки ребра
+        private static void DrawLine(Bgr24Bitmap bitmap, Pixel src, Pixel desc, Color color)
         {
             // разница координат начальной и конечной точек
             int dx = Math.Abs(desc.X - src.X);

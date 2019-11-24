@@ -31,8 +31,15 @@ namespace CGA
 
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] fileLines = OpenReadFile.Execute();
-            model = ObjParser.parse(fileLines);
+            try
+            {
+                string[] fileLines = ObjFileReader.Execute();
+                model = ObjParser.Parse(fileLines);
+            }
+            catch
+            {
+                MessageBox.Show("Произошла ошибка!");
+            }
         }
     }
 }

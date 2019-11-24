@@ -9,19 +9,19 @@ namespace CGA.models
 {
     public class Model
     {
-        public List<Vector4> pointsList { get; set; }
-        public List<List<Vector3>> facesList { get;  set; }
-        public List<List<Vector3>> triangleFacesList { get; set; }
-        public List<Vector3> textureList { get;  set; }
-        public List<Vector3> normalList { get; set; }
+        public List<Vector4> Points { get; set; }
+        public List<List<Vector3>> Faces { get;  set; }
+        public List<List<Vector3>> TriangleFaces { get; set; }
+        public List<Vector3> Textures { get;  set; }
+        public List<Vector3> Normals { get; set; }
 
-        public Model(List<Vector4> pointsList, List<List<Vector3>> facesList, List<Vector3> textureList, List<Vector3> normalList, List<List<Vector3>> triangleFacesList)
+        public Model(List<Vector4> points, List<List<Vector3>> faces, List<Vector3> texture, List<Vector3> normal, List<List<Vector3>> triangleFaces)
         {
-            this.pointsList = pointsList;
-            this.facesList = facesList;
-            this.triangleFacesList = triangleFacesList;
-            this.textureList = textureList;
-            this.normalList = normalList;
+            this.Points = points;
+            this.Faces = faces;
+            this.TriangleFaces = triangleFaces;
+            this.Textures = texture;
+            this.Normals = normal;
         }
 
        
