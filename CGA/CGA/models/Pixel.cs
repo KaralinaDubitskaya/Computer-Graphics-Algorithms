@@ -11,5 +11,12 @@ namespace CGA.models
         public int X;
         public int Y;
         public float Z;
+
+        public Pixel(int x, int y, float z)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Z = z;
+        }
     }
 }
