@@ -21,8 +21,9 @@ namespace CGA.algorithms
 
         #region Private methods
         // Целочисленный алгоритм Брезенхема
-        private static void AddPixelsForSide(Bgr24Bitmap bitmap, PixelInfo src, PixelInfo desc, Color color)
+        private static void AddPixelsForSide(Bgr24Bitmap bitmap, Pixel src, Pixel desc, Color color)
         {
+            // разница координат начальной и конечной точек
             int dx = Math.Abs(desc.X - src.X);
             int dy = Math.Abs(desc.Y - src.Y);
             float dz = Math.Abs(desc.Z - src.Z);
@@ -32,14 +33,13 @@ namespace CGA.algorithms
             int signY = src.Y < desc.Y ? 1 : -1;
             float signZ = src.Z < desc.Z ? 1 : -1;
 
-            // current pixel
-            PixelInfo p = new PixelInfo(src);
-
+            // текущий пиксель
+            Pixel p = src;
 
             float curZ = src.Z;  // текущее z
             float z3 = dz / dy;  // при изменении y будем менять z
 
-            int err = dx - dy;  
+            int err = dx - dy;   // ошибка
 
             // пока не достигнем конца
             while (p.X != desc.X || p.Y != desc.Y)
