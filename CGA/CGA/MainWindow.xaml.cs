@@ -56,5 +56,15 @@ namespace CGA
         {
          
         }
+
+        private void RasterizationCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ChangeLightingParamsEvent(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
