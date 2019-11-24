@@ -67,12 +67,10 @@ namespace CGA.algorithms
         }
 
         // Отрисовывание ребра
-        private void DrawSide(List<Vector3> face, int index1, int index2)
+        protected void DrawSide(List<Vector3> face, int index1, int index2)
         {
-            Color color = GetFaceColor(face);
-
-            var point1 = GetFacePoint(face, index1, color);
-            var point2 = GetFacePoint(face, index2, color);
+            var point1 = GetFacePoint(face, index1, _color);
+            var point2 = GetFacePoint(face, index2, _color);
 
             DrawLine(point1, point2);
         }
@@ -87,12 +85,10 @@ namespace CGA.algorithms
         // Получение нормали к грани
         private Vector3 GetFaceNormal(List<Vector3> face)
         {
-            Color color = GetFaceColor(face);
-
             // получение вершин
-            Pixel point1 = GetFacePoint(face, 0, color);
-            Pixel point2 = GetFacePoint(face, 1, color);
-            Pixel point3 = GetFacePoint(face, 2, color);
+            Pixel point1 = GetFacePoint(face, 0, _color);
+            Pixel point2 = GetFacePoint(face, 1, _color);
+            Pixel point3 = GetFacePoint(face, 2, _color);
 
             return GetNormal(point1, point2, point3);
         }
@@ -198,12 +194,6 @@ namespace CGA.algorithms
             Vector4 point = _model.Points[indexPoint];
 
             return new Pixel((int)point.X, (int)point.Y, point.Z, color);
-        }
-
-        // Получение цвета грани
-        protected virtual Color GetFaceColor(List<Vector3> face)
-        {
-            return _color;
         }
 
         #endregion

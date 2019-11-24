@@ -1,7 +1,9 @@
-﻿using CGA.models;
+﻿using CGA.algorithms.lighting;
+using CGA.models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -11,11 +13,12 @@ namespace CGA.algorithms
     public class PlaneShading : BresenhamAlg
     {
         private ZBuffer _zBuffer = new ZBuffer();
+        private ILighting _lighting;
 
-        public PlaneShading(Bgr24Bitmap bitmap, Model model)
+        public PlaneShading(Bgr24Bitmap bitmap, Model model, ILighting lighting)
             : base(bitmap, model)
         {
-            
+            _lighting = lighting;
         }
 
         public override void DrawModel()
@@ -55,6 +58,32 @@ namespace CGA.algorithms
             DrawSide(face, sidesList, 0, face.Count - 1);
 
             DrawPixelForRasterization(sidesList);
+        }
+
+        // ----------------------------------------
+
+        protected override void DrawSide(List<Vector3> face, List<PixelInfo> sidesList, int facePoint1Ind, int facePoint2Ind)
+        {
+            var point1Ind = (int)face[facePoint1Ind].X;
+            var point2Ind = (int)face[facePoint2Ind].X;
+            var point1 = DrawingObject.pointsList[point1Ind];
+            var point2 = DrawingObject.pointsList[point2Ind];
+            var color = GetColorForFace(face);
+            var pixel1 = new PixelInfo() { X = (int)point1.X, Y = (int)point1.Y, Z = point1.Z, Color = color };
+            var pixel2 = new PixelInfo() { X = (int)point2.X, Y = (int)point2.Y, Z = point2.Z, Color = color };
+
+            AddPixelsForSide(sidesList, pixel1, pixel2);
+        }
+
+        // Отрисовывание ребра
+        protected void DrawSide(List<Vector3> face, int index1, int index2)
+        {
+            Color color = GetFaceColor(face, _color);
+
+            var point1 = GetFacePoint(face, index1, color);
+            var point2 = GetFacePoint(face, index2, color);
+
+            DrawLine(point1, point2);
         }
 
 
@@ -118,6 +147,34 @@ namespace CGA.algorithms
             {
                 _bitmap[desc.X, desc.Y] = color;
             }
+        }
+
+        protected Color GetFaceColor(List<Vector3> face, Color color)
+        {
+            var normal1 = _model.Normals[(int)face[0].Z];
+            var normal2 = _model.Normals[(int)face[1].Z];
+            var normal3 = _model.Normals[(int)face[2].Z];
+
+            Color color1 = _lighting.GetPointColor(normal1, color);
+            Color color2 = _lighting.GetPointColor(normal2, color);
+            Color color3 = _lighting.GetPointColor(normal3, color);
+
+            return GetAverageColor(color1, color2, color3);
+        }
+
+        public static Color GetAverageColor(Color color1, Color color2, Color color3)
+        {
+            int sumR = color1.R + color2.R + color3.R;
+            int sumG = color1.G + color2.G + color3.G;
+            int sumB = color1.B + color2.B + color3.B;
+            int sumA = color1.A + color2.A + color3.A;
+
+            byte r = (byte)Math.Round((double)sumR / 3);
+            byte g = (byte)Math.Round((double)sumG / 3);
+            byte b = (byte)Math.Round((double)sumB / 3);
+            byte a = (byte)Math.Round((double)sumA / 3);
+
+            return Color.FromArgb(a, r, g, b);
         }
 
     }
