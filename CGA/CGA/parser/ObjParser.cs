@@ -11,52 +11,51 @@ namespace CGA.parser
 {
     public static class ObjParser
     {
-        private static List<Vector4> pointsList ;
-        private static List<List<Vector3>> facesList ;
-        private static List<Vector3> textureList ;
-        private static List<Vector3> normalList ;
+        private static List<Vector4> points;
+        private static List<List<Vector3>> faces;
+        private static List<Vector3> textures;
+        private static List<Vector3> normals;
 
-        private static void initLists()
+        private static void InitLists()
         {
-            pointsList = new List<Vector4>();
-            facesList = new List<List<Vector3>>();
-            textureList = new List<Vector3>();
-            normalList = new List<Vector3>();
+            points = new List<Vector4>();
+            faces = new List<List<Vector3>>();
+            textures = new List<Vector3>();
+            normals = new List<Vector3>();
            
         }
 
-        public static Model parse(string[] fileLines)
+        public static Model Parse(string[] fileLines)
         {
 
-            initLists();
+            InitLists();
             foreach (string line in fileLines)
             {
-                fillLists(line);
+                FillLists(line);
             }
 
-            return new Model(pointsList, facesList, textureList, normalList, MakeTriangleFaceList(facesList));
+            return new Model(points, faces, textures, normals, MakeTriangleFaceList(faces));
         }
 
-        private static void fillLists(string line)
+        private static void FillLists(string line)
         {
             if (line.StartsWith("v "))
             {
-                pointsList.Add(ObjParser.ParsePoint(line));
+                points.Add(ObjParser.ParsePoint(line));
             }
             else if (line.StartsWith("vt "))
             {
-                textureList.Add(ObjParser.ParseTexture(line));
+                textures.Add(ObjParser.ParseTexture(line));
             }
             else if (line.StartsWith("vn "))
             {
-                normalList.Add(ObjParser.ParseNormal(line));
+                normals.Add(ObjParser.ParseNormal(line));
             }
             else if (line.StartsWith("f "))
             {
-                facesList.Add(ObjParser.ParseFace(line));
+                faces.Add(ObjParser.ParseFace(line));
             }
         }
-
 
         private static Vector4 ParsePoint(string line)
         {    
@@ -107,15 +106,15 @@ namespace CGA.parser
             return str.Split(separators, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private static  List<List<Vector3>> MakeTriangleFaceList(List<List<Vector3>> facesList)
+        private static  List<List<Vector3>> MakeTriangleFaceList(List<List<Vector3>> faces)
         {
-            List<List<Vector3>> triangleFaceList = new List<List<Vector3>>();
+            List<List<Vector3>> triangleFaces = new List<List<Vector3>>();
 
-            foreach (var face in facesList)
+            foreach (var face in faces)
             {
                 if (face.Count < 3)
                 {
-                    throw new ArgumentException("Should be 3 values");
+                    throw new ArgumentException("The face should include 2 faces.");
                 }
 
                 for (int i = 1; i < face.Count - 1; i++)
@@ -124,11 +123,11 @@ namespace CGA.parser
                     triangleFace.Add(face[0]);
                     triangleFace.Add(face[i]);
                     triangleFace.Add(face[i + 1]);
-                    triangleFaceList.Add(triangleFace);
+                    triangleFaces.Add(triangleFace);
                 }
             }
 
-            return triangleFaceList;
+            return triangleFaces;
         }
 
     }
