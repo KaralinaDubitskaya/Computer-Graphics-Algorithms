@@ -66,12 +66,12 @@ namespace CGA.algorithms
         }
 
         // Отрисовывание ребра
-        protected void DrawSide(List<Vector3> face, int index1, int index2, Color color)
+        protected void DrawSide(List<Vector3> face, int index1, int index2, Color color, List<Pixel> sidesPixels = null)
         {
             var point1 = GetFacePoint(face, index1, color);
             var point2 = GetFacePoint(face, index2, color);
 
-            DrawLine(point1, point2);
+            DrawLine(point1, point2, sidesPixels);
         }
 
         // Определяем, видима ли грань
@@ -128,7 +128,7 @@ namespace CGA.algorithms
         }
 
         // Целочисленный алгоритм Брезенхема для отрисовки ребра
-        protected void DrawLine(Pixel src, Pixel desc)
+        protected void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
         {
             Color color = src.Color;
 
@@ -154,7 +154,7 @@ namespace CGA.algorithms
             while (p.X != desc.X || p.Y != desc.Y)
             {
                 // пиксель внутри окна
-                DrawPixel(p.X, p.Y, curZ, color);
+                DrawPixel(p.X, p.Y, curZ, color, sidesPixels);
 
                 int err2 = err * 2;      // модифицированное значение ошибки
 
@@ -173,7 +173,7 @@ namespace CGA.algorithms
             }
 
             // отрисовывем последний пиксель
-            DrawPixel(desc.X, desc.Y, desc.Z, color);
+            DrawPixel(desc.X, desc.Y, desc.Z, color, sidesPixels);
         }
 
         // Получение вершины грани
@@ -187,7 +187,7 @@ namespace CGA.algorithms
             return new Pixel((int)point.X, (int)point.Y, point.Z, color);
         }
 
-        protected virtual void DrawPixel(int x, int y, float z, Color color)
+        protected virtual void DrawPixel(int x, int y, float z, Color color, List<Pixel> sidesPixels = null)
         {
             if (x > 0 && x < _bitmap.PixelWidth && 
                 y > 0 && y < _bitmap.PixelHeight &&

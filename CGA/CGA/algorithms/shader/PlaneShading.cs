@@ -15,8 +15,6 @@ namespace CGA.algorithms
         private ZBuffer _zBuffer;
         private ILighting _lighting;
 
-        private List<Pixel> _sidesPixels;
-
         public PlaneShading(Bgr24Bitmap bitmap, Model model, ILighting lighting)
             : base(bitmap, model)
         {
@@ -38,24 +36,24 @@ namespace CGA.algorithms
         private void DrawFace(List<Vector3> face)
         {
             Color color = GetFaceColor(face, _color);
-            _sidesPixels = new List<Pixel>();
+            List<Pixel> sidesPixels = new List<Pixel>();
 
             for (int i = 0; i < face.Count - 1; i++)
             {
-                DrawSide(face, i, i + 1, color);
+                DrawSide(face, i, i + 1, color, sidesPixels);
             }
-            DrawSide(face, 0, face.Count - 1, color);
+            DrawSide(face, 0, face.Count - 1, color, sidesPixels);
 
-            DrawPixelsInFace(_sidesPixels);
+            DrawPixelsInFace(sidesPixels);
         }
 
-        protected override void DrawPixel(int x, int y, float z, Color color)
+        protected override void DrawPixel(int x, int y, float z, Color color, List<Pixel> sidesPixels = null)
         {
             if (x > 0 && x < _bitmap.PixelWidth && 
                 y > 0 && y < _bitmap.PixelHeight &&
                 z > 0 && z < 1 && z <= _zBuffer[x, y])
             {
-                _sidesPixels.Add(new Pixel(x, y, z, color));   // добавляеи точку в список граничных точек грани
+                sidesPixels.Add(new Pixel(x, y, z, color));   // добавляеи точку в список граничных точек грани
                 _zBuffer[x, y] = z;                            // помечаем новую координату в z-буффере
                 _bitmap[x, y] = color;                         // красим пиксель
             }
