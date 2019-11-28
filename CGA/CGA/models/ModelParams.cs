@@ -29,5 +29,34 @@ namespace CGA.models
         public int YMin { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+
+
+        public ModelParams(float scaling, float modelYaw, float modelPitch, float modelRoll, float translationX,
+               float translationY, float translationZ, float cameraPositionX, float cameraPositionY, float cameraPositionZ,
+               float cameraYaw, float cameraPitch, float cameraRoll, float fieldOfView,  float nearPlaneDistance,
+               float farPlaneDistance, int xMin, int yMin)
+        {
+            this.Scaling = scaling;
+            this.ModelYaw = modelYaw;
+            this.ModelPitch = modelPitch;
+            this.ModelRoll = modelRoll;
+            this.TranslationX = translationX;
+            this.TranslationY = translationY;
+            this.TranslationZ = translationZ;
+            this.CameraPositionX = cameraPositionX;
+            this.CameraPositionY = cameraPositionY;
+            this.CameraPositionZ = cameraPositionZ;
+            this.CameraYaw = cameraYaw;
+            this.CameraPitch = cameraPitch;
+            this.CameraRoll = cameraRoll;
+            this.FieldOfView = fieldOfView;
+           // this.AspectRatio = aspectRatio;
+            this.NearPlaneDistance = nearPlaneDistance;
+            this.FarPlaneDistance = farPlaneDistance;
+            this.XMin = xMin;
+            this.YMin = yMin;
+
+        }
     }
+
 }

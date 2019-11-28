@@ -24,6 +24,7 @@ namespace CGA
     public partial class MainWindow : Window
     {
         public Model model;
+        private ModelParams modelParams;
         public MainWindow()
         {
             InitializeComponent();
@@ -44,17 +45,25 @@ namespace CGA
 
         private void DrawButton_Click(object sender, RoutedEventArgs e)
         {
-           
+           if (model != null ){
+                modelParams = GetModelsParams();
+            }
         }
 
         private void NearPlaneDistanceSlider_ValueChanged(object sender, RoutedEventArgs e)
         {
-          
+            if (NearPlaneDistanceSlider.Value >= FarPlaneDistanceSlider.Value)
+            {
+                NearPlaneDistanceSlider.Value = FarPlaneDistanceSlider.Value - 1;
+            }
         }
 
         private void FarPlaneDistanceSlider_ValueChanged(object sender, RoutedEventArgs e)
         {
-         
+            if (FarPlaneDistanceSlider.Value <= NearPlaneDistanceSlider.Value)
+            {
+                FarPlaneDistanceSlider.Value = NearPlaneDistanceSlider.Value + 1;
+            }
         }
 
         private void RasterizationCheckBox_Click(object sender, RoutedEventArgs e)
@@ -65,6 +74,33 @@ namespace CGA
         private void ChangeLightingParamsEvent(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private ModelParams GetModelsParams()
+        {
+            float scaling = (float)scaleSlider.Value;
+            float modelYaw = (float)(modelYawSlider.Value * Math.PI / 180);
+            float modelPitch = (float)(modelPitchSlider.Value * Math.PI / 180);
+            float modelRoll = (float)(modelRollSlider.Value * Math.PI / 180);
+            float translationX = (float)translationXSlider.Value;
+            float translationY = (float)translationYSlider.Value;
+            float translationZ = (float)translationZSlider.Value;
+            float cameraPositionX = (float)CameraPositionXSlider.Value;
+            float cameraPositionY = (float)CameraPositionYSlider.Value;
+            float cameraPositionZ = (float)CameraPositionZSlider.Value;
+            float cameraYaw = (float)(CameraYawSlider.Value * Math.PI / 180);
+            float cameraPitch = (float)(CameraPitchSlider.Value * Math.PI / 180);
+            float cameraRoll = (float)(CameraRollSlider.Value * Math.PI / 180);
+            float fieldOfView = (float)(FieldOfViewSlider.Value * Math.PI / 180);
+         //   float aspectRatio = (float)width / height;
+            float nearPlaneDistance = (float)NearPlaneDistanceSlider.Value;
+            float farPlaneDistance = (float)FarPlaneDistanceSlider.Value;
+            int xMin = 0;
+            int yMin = 0;
+
+           return  new ModelParams(scaling, modelYaw, modelPitch, modelRoll, translationX, translationY, translationZ,
+                cameraPositionX, cameraPositionY, cameraPositionZ, cameraYaw, cameraPitch, cameraRoll, fieldOfView,  nearPlaneDistance,
+                farPlaneDistance, xMin, yMin);
         }
     }
 }

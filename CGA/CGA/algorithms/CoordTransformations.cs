@@ -7,11 +7,22 @@ using System.Threading.Tasks;
 
 namespace CGA.algorithms
 {
-    public static class CoordTransformations
+    public  class CoordTransformations
     {
         private static void  TransformFromWorldToView(Model model)
         {
 
+        }
+
+        private Matrix GetWorldMatrix(ModelParams modelParams)
+        {
+            return Matrix.GetTranslationMatrix(modelParams.TranslationX, modelParams.TranslationY, modelParams.TranslationZ) * Matrix.GetRotationXMatrix(modelParams.TranslationX) *
+                Matrix.GetRotationYMatrix(modelParams.TranslationY) * Matrix.GetRotationZMatrix(modelParams.TranslationZ) * Matrix.GetScaleMatrix(modelParams.Scaling, modelParams.Scaling, modelParams.Scaling);
+        }
+
+        private Matrix GetViewerMatrix(ModelParams modelParams)
+        {
+            return new Matrix(); // To Do 
         }
     }
 }
