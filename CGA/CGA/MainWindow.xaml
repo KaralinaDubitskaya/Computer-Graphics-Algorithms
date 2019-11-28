@@ -5,8 +5,88 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CGA"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="openFileButton" Content="Open" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.479,0.578" Height="33" Click="OpenFileButton_Click"/>
+        Title="MainWindow" Height="600" Width="1000">
+    <Grid RenderTransformOrigin="0.514,0.806">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="180*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="180*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="594*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="openFileButton" Content="Open" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.479,0.578" Height="22" Click="OpenFileButton_Click" Grid.ColumnSpan="3" Margin="0,24,0,0"/>
+        <Button x:Name="drawButton" Content="Draw" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="200" RenderTransformOrigin="0.566,-2.355" Height="21" Click="DrawButton_Click" Grid.ColumnSpan="3" Margin="0,0,0,10.4"/>
+        <Slider x:Name="scaleSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Minimum="1" Maximum="100" Value="1" SmallChange="1"  AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Row="1" Grid.Column="1" Height="20" Width="100"  />
+        <Label Content="Scaling" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Height="25" Width="48" Grid.Row="1" Grid.RowSpan="2"/>
+        <Slider x:Name="modelYawSlider" HorizontalAlignment="Left"  VerticalAlignment="Top"  Minimum="-180" Maximum="180" SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Height="18" Grid.Row="2" Width="100" Padding="0"/>
+        <Label Content="Model Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Height="26" Width="70" Grid.Row="2" Grid.RowSpan="2"/>
+        <Slider x:Name="modelPitchSlider" HorizontalAlignment="Left"  VerticalAlignment="Top"  Minimum="-180" Maximum="180" SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Grid.RowSpan="1" Height="17" Width="100" Grid.Row="3" Padding="0"/>
+        <Label Content="Model Pitch" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="0" Grid.RowSpan="2" Height="26" Width="73" Grid.Row="3"/>
+        <Slider x:Name="modelRollSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Minimum="-180" Maximum="180" SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1"  Height="18" Grid.Row="4"/>
+        <Label Content="Model Roll" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Grid.RowSpan="1" Height="26" Width="67" Grid.Row="4"/>
+        <Slider x:Name="translationXSlider" HorizontalAlignment="Left" VerticalAlignment="Top"  Minimum="-500" Maximum="500" SmallChange="30" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Grid.Row="1" Width="100"  Height="17"/>
+        <Label Content="Translation X" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Height="22" Width="76"/>
+        <Slider x:Name="translationYSlider" HorizontalAlignment="Left"  VerticalAlignment="Top"  Minimum="-300" Maximum="300" SmallChange="20" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Height="18" Width="100"/>
+        <Label Content="Translation Y" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Height="24" Width="77"/>
+        <Slider x:Name="translationZSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="-100" Maximum="100" SmallChange="10" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" Height="17"/>
+        <Label Content="Translation Z" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" Height="26" Width="76"/>
+        <Slider x:Name="CameraPositionXSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="-500" Maximum="500" SmallChange="40" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Grid.Row="4" Grid.RowSpan="2" Height="17"/>
+        <Label Content="Camera X" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Height="26" Width="61"/>
+        <Slider x:Name="CameraPositionZSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="-500" Maximum="500" SmallChange="50" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Value="10" Grid.Column="3" Grid.Row="5" Height="18"/>
+        <Label Content="Camera Z" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="2" Grid.Row="5" Height="26" Width="61"/>
+        <Slider x:Name="CameraPositionYSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="-300" Maximum="300" SmallChange="30" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Grid.Row="5" Height="18"/>
+        <Label Content="Camera Y" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="5" Height="26" Width="60"/>
+        <Slider x:Name="CameraPitchSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Minimum="-180" Maximum="180" SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Grid.Row="6" Height="18"/>
+        <Label Content="Camera Pitch" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="6" Height="26" Width="80"/>
+        <Slider x:Name="CameraYawSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Minimum="-180" Maximum="180" SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Grid.Row="7" Height="18"/>
+        <Label Content="Camera Yaw" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Grid.Row="7" Height="26" Width="73" RenderTransformOrigin="2.27,0.408" Grid.RowSpan="2"/>
+        <Slider x:Name="FieldOfViewSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="1" Maximum="180" SmallChange="1" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Value="45" Grid.Column="3" Grid.Row="6" Height="18"/>
+        <Label Content="Field of view" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="2" Grid.Row="6" Height="26" Width="75"/>
+        <Slider x:Name="CameraRollSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="-180" Maximum="180" SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Grid.Row="7" Height="18"/>
+        <Label Content="Camera Roll" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="2" Grid.Row="7" Height="26" Width="72" Grid.RowSpan="3"/>
+        <Slider x:Name="FarPlaneDistanceSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Minimum="1" Maximum="1000" SmallChange="100" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Value="1000" ValueChanged="FarPlaneDistanceSlider_ValueChanged" Grid.Column="1" Grid.Row="8" Height="18"/>
+        <Label Content="Far plane" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Grid.Row="8" Height="25" Width="58"/>
+        <Slider x:Name="NearPlaneDistanceSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="1" Maximum="1000" SmallChange="100" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Value="1" ValueChanged="NearPlaneDistanceSlider_ValueChanged" Grid.Column="3" Grid.Row="8" Height="18"/>
+        <Label Content="Near plane" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="2" Grid.Row="8" Height="25" Width="67" Grid.RowSpan="2"/>
+        <Image x:Name="screenPictureBox" HorizontalAlignment="Left" Height="420" Margin="5,0,-0.4,0" VerticalAlignment="Top" Width="589" Grid.Column="4" Grid.RowSpan="12"/>
+        <CheckBox x:Name="RasterizationCheckBox" Content="Rasterization" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="RasterizationCheckBox_Click" Grid.Column="0" Grid.Row="10" Grid.RowSpan="2" Width="100"/>
+        <GroupBox x:Name="shadingTypesGroupBox" Header="Shading Types" HorizontalAlignment="Left" Height="110"  VerticalAlignment="Top" Width="100" Grid.Row="11" Grid.ColumnSpan="2" Grid.Column="0">
+            <Grid >
+                <RadioButton x:Name="plainShadingRadioButton" Content="Plain Shading" HorizontalAlignment="Left" Margin="-3,10,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DrawButton_Click"/>
+                <RadioButton x:Name="guroShadingRadioButton"  Content="Guro Shading" HorizontalAlignment="Left" Margin="-3,35,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DrawButton_Click"/>
+                <RadioButton x:Name="fongShadingRadioButton" Content="Fong Shading" HorizontalAlignment="Left" Margin="-3,60,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DrawButton_Click"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="lightingTypesGroupBox" Header="Lighting Types" HorizontalAlignment="Left" Height="110"  VerticalAlignment="Top" Width="100" Grid.Column="1" Grid.Row="11" Grid.RowSpan="3" Grid.ColumnSpan="2" >
+            <Grid>
+                <RadioButton x:Name="lambertLightingRadioButton" Content="Lambert Light" HorizontalAlignment="Left" Margin="-3,10,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DrawButton_Click"/>
+                <RadioButton x:Name="fongLightingRadioButton" Content="Fong Light" HorizontalAlignment="Left" Margin="-3,35,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DrawButton_Click"/>
+            </Grid>
+        </GroupBox>
+        <TextBox x:Name="lightVectorXTextBox" HorizontalAlignment="Left" Height="20"  TextWrapping="Wrap" VerticalAlignment="Top" Width="52" Text="0" MaxLength="7" TextChanged="ChangeLightingParamsEvent" Grid.Column="1" Grid.Row="12" Margin="38,2.6,0,0"/>
+        <Label Content="X" HorizontalAlignment="Left" Margin="5,106.6,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.539" Grid.Column="1" Grid.Row="11" Grid.RowSpan="2"/>
+        <TextBox x:Name="lightVectorYTextBox" HorizontalAlignment="Left" Height="20" Margin="43,3.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="47" Text="0" MaxLength="7" TextChanged="ChangeLightingParamsEvent" Grid.Column="2" Grid.Row="12"/>
+        <Label Content="Y" HorizontalAlignment="Left" Margin="10,2.6,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.539" Grid.Column="2" Grid.Row="12" Grid.RowSpan="2"/>
+        <TextBox x:Name="lightVectorZTextBox" HorizontalAlignment="Left" Margin="47,3.6,0,0.4" TextWrapping="Wrap" Width="43" Text="1" MaxLength="7" TextChanged="ChangeLightingParamsEvent" Grid.Column="3" Grid.Row="12"/>
+        <Label Content="Z" HorizontalAlignment="Left" Margin="10,107.6,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.539" Grid.Column="3" Grid.Row="11" Grid.RowSpan="3" Height="25" Width="40"/>
+        <Label Content="Light Vector" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.539" Grid.Column="0" Grid.Row="12"/>
+
+
     </Grid>
 </Window>

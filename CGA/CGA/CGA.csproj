@@ -61,7 +61,9 @@
     <Compile Include="algorithms\lighting\ILighting.cs" />
     <Compile Include="algorithms\lighting\LambertLighting.cs" />
     <Compile Include="algorithms\PlaneShading.cs" />
+    <Compile Include="algorithms\CoordTransformations.cs" />
     <Compile Include="models\Model.cs" />
+    <Compile Include="models\ModelParams.cs" />
     <Compile Include="models\Pixel.cs" />
     <Compile Include="models\ZBuffer.cs" />
     <Compile Include="parser\ObjParser.cs" />
