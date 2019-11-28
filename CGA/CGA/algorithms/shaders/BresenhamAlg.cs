@@ -16,8 +16,7 @@ namespace CGA.algorithms
 
         protected Bgr24Bitmap _bitmap;
         protected Model _model;
-
-        private Color _color = Color.FromRgb(0,0,0);
+        protected Color _color = Color.FromRgb(0,0,0);
 
         #endregion
 
@@ -60,17 +59,17 @@ namespace CGA.algorithms
         {
             for (int i = 0; i < face.Count - 1; i++)
             {
-                DrawSide(face, i, i + 1);
+                DrawSide(face, i, i + 1, _color);
             }
 
-            DrawSide(face, 0, face.Count - 1);
+            DrawSide(face, 0, face.Count - 1, _color);
         }
 
         // Отрисовывание ребра
-        protected void DrawSide(List<Vector3> face, int index1, int index2)
+        protected void DrawSide(List<Vector3> face, int index1, int index2, Color color)
         {
-            var point1 = GetFacePoint(face, index1, _color);
-            var point2 = GetFacePoint(face, index2, _color);
+            var point1 = GetFacePoint(face, index1, color);
+            var point2 = GetFacePoint(face, index2, color);
 
             DrawLine(point1, point2);
         }
@@ -129,8 +128,10 @@ namespace CGA.algorithms
         }
 
         // Целочисленный алгоритм Брезенхема для отрисовки ребра
-        protected virtual void DrawLine(Pixel src, Pixel desc)
+        protected void DrawLine(Pixel src, Pixel desc)
         {
+            Color color = src.Color;
+
             // разница координат начальной и конечной точек
             int dx = Math.Abs(desc.X - src.X);
             int dy = Math.Abs(desc.Y - src.Y);
@@ -153,12 +154,7 @@ namespace CGA.algorithms
             while (p.X != desc.X || p.Y != desc.Y)
             {
                 // пиксель внутри окна
-                if (p.X > 0 && p.X < _bitmap.PixelWidth && 
-                    p.Y > 0 && p.Y < _bitmap.PixelHeight &&
-                    curZ > 0 && curZ < 1)   
-                {
-                    _bitmap[p.X, p.Y] = _color;  // красим пиксель
-                }
+                DrawPixel(p.X, p.Y, curZ, color);
 
                 int err2 = err * 2;      // модифицированное значение ошибки
 
@@ -177,12 +173,7 @@ namespace CGA.algorithms
             }
 
             // отрисовывем последний пиксель
-            if (desc.X > 0 && desc.X < _bitmap.PixelWidth && desc.Y > 0 &&
-                desc.Y < _bitmap.PixelHeight &&
-                desc.Z > 0 && desc.Z < 1)
-            {
-                _bitmap[desc.X, desc.Y] = _color;
-            }
+            DrawPixel(desc.X, desc.Y, desc.Z, color);
         }
 
         // Получение вершины грани
@@ -194,6 +185,16 @@ namespace CGA.algorithms
             Vector4 point = _model.Points[indexPoint];
 
             return new Pixel((int)point.X, (int)point.Y, point.Z, color);
+        }
+
+        protected virtual void DrawPixel(int x, int y, float z, Color color)
+        {
+            if (x > 0 && x < _bitmap.PixelWidth && 
+                y > 0 && y < _bitmap.PixelHeight &&
+                z > 0 && z < 1)
+            {
+                _bitmap[x, y] = color;
+            }
         }
 
         #endregion
