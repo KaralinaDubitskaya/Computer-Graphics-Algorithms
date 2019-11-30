@@ -190,6 +190,62 @@ namespace CGA.models
             return result;
         }
 
+        public override string ToString()
+        {
+          
+
+            return String.Format( "{{ {{M11:{0} M12:{1} M13:{2} M14:{3}}} {{M21:{4} M22:{5} M23:{6} M24:{7}}} {{M31:{8} M32:{9} M33:{10} M34:{11}}} {{M41:{12} M42:{13} M43:{14} M44:{15}}} }}",
+                                 M11.ToString(), M12.ToString(), M13.ToString(), M14.ToString(),
+                                 M21.ToString(), M22.ToString(), M23.ToString(), M24.ToString(),
+                                 M31.ToString(), M32.ToString(), M33.ToString(), M34.ToString(),
+                                 M41.ToString(), M42.ToString(), M43.ToString(), M44.ToString());
+        }
+
+
+        public static Matrix GetPerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
+        {
+            if (fieldOfView <= 0.0f || fieldOfView >= Math.PI)
+                throw new ArgumentOutOfRangeException("fieldOfView");
+
+            if (nearPlaneDistance <= 0.0f)
+                throw new ArgumentOutOfRangeException("nearPlaneDistance");
+
+            if (farPlaneDistance <= 0.0f)
+                throw new ArgumentOutOfRangeException("farPlaneDistance");
+
+            if (nearPlaneDistance >= farPlaneDistance)
+                throw new ArgumentOutOfRangeException("nearPlaneDistance");
+
+            float yScale = 1.0f / (float)Math.Tan(fieldOfView * 0.5f);
+            float xScale = yScale / aspectRatio;
+
+            Matrix result;
+
+            result.M11 = xScale;
+            result.M12 = result.M13 = result.M14 = 0.0f;
+
+            result.M22 = yScale;
+            result.M21 = result.M23 = result.M24 = 0.0f;
+
+            result.M31 = result.M32 = 0.0f;
+            result.M33 = farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
+            result.M34 = -1.0f;
+
+            result.M41 = result.M42 = result.M44 = 0.0f;
+            result.M43 = nearPlaneDistance * farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
+
+            return result;
+        }
+
+        public static Matrix GetViewPortMatrix(int minX, int minY, int width, int height, int x)
+        {
+            return new Matrix(width / 2, 0, 0, 0,
+                                 0, -1 * height / 2, 0, 0,
+                                 0, 0, 1, 0,
+                                 minX + width / 2, minY + height / 2, 0, 1);
+        }
+
+
         #endregion
 
         #region Operations
