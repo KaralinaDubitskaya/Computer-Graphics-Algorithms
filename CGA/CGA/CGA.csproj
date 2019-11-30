@@ -66,6 +66,7 @@
     <Compile Include="models\Model.cs" />
     <Compile Include="models\ModelParams.cs" />
     <Compile Include="models\Pixel.cs" />
+    <Compile Include="models\TransformVector.cs" />
     <Compile Include="models\ZBuffer.cs" />
     <Compile Include="parser\ObjParser.cs" />
     <Compile Include="utils\ObjFileReader.cs" />

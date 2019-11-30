@@ -24,7 +24,43 @@ namespace CGA.models
             this.Normals = normal;
         }
 
-       
+        public bool CheckSize(int width, int height)
+        {
+            bool result = true;
+            bool outOfLeftSide = false, outOfRightSide = false, outOfTopSide = false, outOfBottomSide = false;
+
+            Parallel.ForEach(this.Points, point =>
+            {
+                if (point.X <= 0)
+                {
+                    outOfLeftSide = true;
+                }
+
+                if (point.X >= width)
+                {
+                    outOfRightSide = true;
+                }
+
+                if (point.Y <= 0)
+                {
+                    outOfTopSide = true;
+                }
+
+                if (point.Y >= height)
+                {
+                    outOfBottomSide = true;
+                }
+            });
+
+            if ((outOfLeftSide && outOfRightSide) || (outOfTopSide && outOfBottomSide))
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+
     }
 
 }

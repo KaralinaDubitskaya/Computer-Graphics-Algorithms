@@ -237,12 +237,38 @@ namespace CGA.models
             return result;
         }
 
+
+
         public static Matrix GetViewPortMatrix(int minX, int minY, int width, int height, int x)
         {
             return new Matrix(width / 2, 0, 0, 0,
                                  0, -1 * height / 2, 0, 0,
                                  0, 0, 1, 0,
                                  minX + width / 2, minY + height / 2, 0, 1);
+        }
+
+        public static Matrix Transpose(Matrix matrix)
+        {
+            Matrix result;
+
+            result.M11 = matrix.M11;
+            result.M12 = matrix.M21;
+            result.M13 = matrix.M31;
+            result.M14 = matrix.M41;
+            result.M21 = matrix.M12;
+            result.M22 = matrix.M22;
+            result.M23 = matrix.M32;
+            result.M24 = matrix.M42;
+            result.M31 = matrix.M13;
+            result.M32 = matrix.M23;
+            result.M33 = matrix.M33;
+            result.M34 = matrix.M43;
+            result.M41 = matrix.M14;
+            result.M42 = matrix.M24;
+            result.M43 = matrix.M34;
+            result.M44 = matrix.M44;
+
+            return result;
         }
 
 

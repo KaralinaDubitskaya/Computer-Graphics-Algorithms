@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CGA.algorithms;
 using CGA.models;
 using CGA.parser;
 using CGA.utils;
@@ -25,9 +26,14 @@ namespace CGA
     {
         public Model model;
         private ModelParams modelParams;
+        readonly int width, height;
+        bool loadCompleted = false;
         public MainWindow()
         {
             InitializeComponent();
+            width = (int)screenPictureBox.Width;
+            height = (int)screenPictureBox.Height;
+            loadCompleted = true;
         }
 
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)
@@ -45,14 +51,35 @@ namespace CGA
 
         private void DrawButton_Click(object sender, RoutedEventArgs e)
         {
-           if (model != null ){
-                modelParams = GetModelsParams();
+            if (model != null)
+            {
+                WriteableBitmap source = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
+                Bgr24Bitmap bitmap = new Bgr24Bitmap(source);
+     
+               ModelParams modelParams = GetModelsParams();
+             
+          
+                CoordTransformations.TransformFromWorldToView(model, modelParams);                         
+                if (model.CheckSize(width, height))
+                {
+
+                    BresenhamAlg bresenham = new BresenhamAlg(bitmap, model);
+                    Color color = Color.FromRgb(128, 128, 128);
+                    bresenham.DrawModel(color);
+
+                    screenPictureBox.Source = bitmap.Source;
+                }
+           
+            }
+            else
+            {
+                MessageBox.Show("Load an object");
             }
         }
 
         private void NearPlaneDistanceSlider_ValueChanged(object sender, RoutedEventArgs e)
         {
-            if (NearPlaneDistanceSlider.Value >= FarPlaneDistanceSlider.Value)
+            if (loadCompleted && NearPlaneDistanceSlider.Value >= FarPlaneDistanceSlider.Value)
             {
                 NearPlaneDistanceSlider.Value = FarPlaneDistanceSlider.Value - 1;
             }
@@ -60,7 +87,8 @@ namespace CGA
 
         private void FarPlaneDistanceSlider_ValueChanged(object sender, RoutedEventArgs e)
         {
-            if (FarPlaneDistanceSlider.Value <= NearPlaneDistanceSlider.Value)
+            
+            if (loadCompleted && FarPlaneDistanceSlider.Value <= NearPlaneDistanceSlider.Value)
             {
                 FarPlaneDistanceSlider.Value = NearPlaneDistanceSlider.Value + 1;
             }
@@ -92,15 +120,15 @@ namespace CGA
             float cameraPitch = (float)(CameraPitchSlider.Value * Math.PI / 180);
             float cameraRoll = (float)(CameraRollSlider.Value * Math.PI / 180);
             float fieldOfView = (float)(FieldOfViewSlider.Value * Math.PI / 180);
-         //   float aspectRatio = (float)width / height;
+            float aspectRatio = (float)width / height;
             float nearPlaneDistance = (float)NearPlaneDistanceSlider.Value;
             float farPlaneDistance = (float)FarPlaneDistanceSlider.Value;
             int xMin = 0;
             int yMin = 0;
 
            return  new ModelParams(scaling, modelYaw, modelPitch, modelRoll, translationX, translationY, translationZ,
-                cameraPositionX, cameraPositionY, cameraPositionZ, cameraYaw, cameraPitch, cameraRoll, fieldOfView,  nearPlaneDistance,
-                farPlaneDistance, xMin, yMin);
+                cameraPositionX, cameraPositionY, cameraPositionZ, cameraYaw, cameraPitch, cameraRoll, fieldOfView, aspectRatio, nearPlaneDistance,
+                farPlaneDistance, xMin, yMin, width, height);
         }
     }
 }
