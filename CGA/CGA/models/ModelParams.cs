@@ -33,8 +33,8 @@ namespace CGA.models
 
         public ModelParams(float scaling, float modelYaw, float modelPitch, float modelRoll, float translationX,
                float translationY, float translationZ, float cameraPositionX, float cameraPositionY, float cameraPositionZ,
-               float cameraYaw, float cameraPitch, float cameraRoll, float fieldOfView,  float nearPlaneDistance,
-               float farPlaneDistance, int xMin, int yMin)
+               float cameraYaw, float cameraPitch, float cameraRoll, float fieldOfView, float aspectRatio, float nearPlaneDistance,
+               float farPlaneDistance, int xMin, int yMin,  int width, int height)
         {
             this.Scaling = scaling;
             this.ModelYaw = modelYaw;
@@ -50,11 +50,13 @@ namespace CGA.models
             this.CameraPitch = cameraPitch;
             this.CameraRoll = cameraRoll;
             this.FieldOfView = fieldOfView;
-           // this.AspectRatio = aspectRatio;
+            this.AspectRatio = aspectRatio;
             this.NearPlaneDistance = nearPlaneDistance;
             this.FarPlaneDistance = farPlaneDistance;
             this.XMin = xMin;
             this.YMin = yMin;
+            this.Height = height;
+            this.Width = width;
 
         }
     }
