@@ -32,7 +32,7 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="openFileButton" Content="Open" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.479,0.578" Height="22" Click="OpenFileButton_Click" Grid.ColumnSpan="3" Margin="0,24,0,0"/>
         <Button x:Name="drawButton" Content="Draw" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="200" RenderTransformOrigin="0.566,-2.355" Height="21" Click="DrawButton_Click" Grid.ColumnSpan="3" Margin="0,0,0,10.4"/>
-        <Slider x:Name="scaleSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Minimum="1" Maximum="100" Value="1" SmallChange="1"  AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Row="1" Grid.Column="1" Height="20" Width="100"  />
+        <Slider x:Name="scaleSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Minimum="1" Maximum="3" Value="1" SmallChange="0.1"  AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Row="1" Grid.Column="1" Height="20" Width="100"  />
         <Label Content="Scaling" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Height="25" Width="48" Grid.Row="1" Grid.RowSpan="2"/>
         <Slider x:Name="modelYawSlider" HorizontalAlignment="Left"  VerticalAlignment="Top"  Minimum="-180" Maximum="180" SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Height="18" Grid.Row="2" Width="100" Padding="0"/>
         <Label Content="Model Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Height="26" Width="70" Grid.Row="2" Grid.RowSpan="2"/>

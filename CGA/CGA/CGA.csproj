@@ -63,6 +63,7 @@
     <Compile Include="algorithms\lighting\LambertLighting.cs" />
     <Compile Include="algorithms\CoordTransformations.cs" />
     <Compile Include="algorithms\shader\PlaneShading.cs" />
+    <Compile Include="LambertLigning.cs" />
     <Compile Include="models\Model.cs" />
     <Compile Include="models\ModelParams.cs" />
     <Compile Include="models\Pixel.cs" />

@@ -24,13 +24,15 @@ namespace CGA.algorithms
 
         public override void DrawModel()
         {
-            Parallel.ForEach(_model.TriangleFaces, face =>
+            // Parallel.ForEach(_model.TriangleFaces, face =>
+            foreach (var face in _model.TriangleFaces)
             {
                 if (IsFaceVisible(face))
                 {
                     DrawFace(face);
                 }
-            });
+            }
+            //});
         }
 
         private void DrawFace(List<Vector3> face)
@@ -49,11 +51,12 @@ namespace CGA.algorithms
 
         protected override void DrawPixel(int x, int y, float z, Color color, List<Pixel> sidesPixels = null)
         {
+            sidesPixels.Add(new Pixel(x, y, z, color));   // добавляеи точку в список граничных точек грани
+
             if (x > 0 && x < _bitmap.PixelWidth && 
                 y > 0 && y < _bitmap.PixelHeight &&
                 z > 0 && z < 1 && z <= _zBuffer[x, y])
             {
-                sidesPixels.Add(new Pixel(x, y, z, color));   // добавляеи точку в список граничных точек грани
                 _zBuffer[x, y] = z;                            // помечаем новую координату в z-буффере
                 _bitmap[x, y] = color;                         // красим пиксель
             }
@@ -90,12 +93,18 @@ namespace CGA.algorithms
         // Отрисовка грани изнутри
         private void DrawPixelsInFace(List<Pixel> sidesPixels) // список всех точек ребер грани
         {
-            ( int minY, int maxY ) = GetMinMaxY(sidesPixels);
+            (int? minY, int? maxY) = GetMinMaxY(sidesPixels);
+            if (minY == null || maxY == null) return;
             Color color = sidesPixels[0].Color;  // цвет одинаковый
 
-            for (int y = minY; y < maxY; y++)      // по очереди отрисовываем линии для каждой y-координаты
+            for (int y = (int)minY; y < maxY; y++)      // по очереди отрисовываем линии для каждой y-координаты
             {
-                ( Pixel start, Pixel end ) = GetStartEndXForY(sidesPixels, y);
+                (Pixel? startPixel, Pixel? endPixel) = GetStartEndXForY(sidesPixels, y);
+                if (startPixel == null || endPixel == null) continue;
+
+                Pixel start = (Pixel)startPixel;
+                Pixel end = (Pixel)endPixel;
+
                 float z = start.Z;                                       // в какую сторону приращение z
                 float dz = (end.Z - start.Z) / Math.Abs((float)(end.X - start.X));  // z += dz при изменении x
 
@@ -114,18 +123,23 @@ namespace CGA.algorithms
         }
 
         // Сортируем точки по Y-координате и находим min & max
-        protected (int min, int max) GetMinMaxY(List<Pixel> pixels)
+        protected (int? min, int? max) GetMinMaxY(List<Pixel> pixels)
         {
             var sorted = pixels.OrderBy(x => x.Y).ToList();
+            if (sorted.Count == 0)
+                return (min: null, max: null);
             return ( min: sorted.First().Y, max: sorted.Last().Y );
         }
 
+
         // Находим стартовый и конечный X для определенного Y 
-        protected (Pixel start, Pixel end) GetStartEndXForY(List<Pixel> pixels, int y)
+        protected (Pixel? start, Pixel? end) GetStartEndXForY(List<Pixel> pixels, int y)
         {
             // Фильтруем пиксели с нужным Y и сортируем по X
-            List<Pixel> filtered = pixels.Where(pixel => pixel.Y == y).OrderBy(pixel => pixel.X).ToList(); 
-            return ( start: filtered.First(), end: filtered.Last() );
+            List<Pixel> filtered = pixels.Where(pixel => pixel.Y == y).OrderBy(pixel => pixel.X).ToList();
+            if (filtered.Count == 0)
+                return (start: null, end: null);
+            return (start: filtered.First(), end: filtered.Last());
         }
 
     }

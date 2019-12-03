@@ -66,7 +66,7 @@ namespace CGA.algorithms
         }
 
         // Отрисовывание ребра
-        protected void DrawSide(List<Vector3> face, int index1, int index2, Color color, List<Pixel> sidesPixels = null)
+        protected virtual void DrawSide(List<Vector3> face, int index1, int index2, Color color, List<Pixel> sidesPixels = null)
         {
             var point1 = GetFacePoint(face, index1, color);
             var point2 = GetFacePoint(face, index2, color);

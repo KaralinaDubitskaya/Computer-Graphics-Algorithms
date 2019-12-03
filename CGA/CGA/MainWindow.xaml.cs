@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +17,7 @@ using CGA.algorithms;
 using CGA.models;
 using CGA.parser;
 using CGA.utils;
+using CGA.algorithms.lighting;
 
 namespace CGA
 {
@@ -56,16 +58,19 @@ namespace CGA
                 WriteableBitmap source = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
                 Bgr24Bitmap bitmap = new Bgr24Bitmap(source);
      
-               ModelParams modelParams = GetModelsParams();
+                ModelParams modelParams = GetModelsParams();
              
           
                 CoordTransformations.TransformFromWorldToView(model, modelParams);                         
                 if (model.CheckSize(width, height))
                 {
 
-                    BresenhamAlg bresenham = new BresenhamAlg(bitmap, model);
+                    //BresenhamAlg bresenham = new BresenhamAlg(bitmap, model);
+                    LambertLighting lighting = new LambertLighting(new Vector3(0,0,1));
+                    PlaneShading shader = new PlaneShading(bitmap, model, lighting);
                     Color color = Color.FromRgb(128, 128, 128);
-                    bresenham.DrawModel(color);
+                    shader.DrawModel(color);
+                    //bresenham.DrawModel(color);
 
                     screenPictureBox.Source = bitmap.Source;
                 }

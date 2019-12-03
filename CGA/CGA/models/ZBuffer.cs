@@ -18,6 +18,10 @@ namespace CGA.models
             Width = width;
             Height = height;
             _buffer = new double[Width, Height];
+
+            for (int i = 0; i < Width; i++)
+                for (int j = 0; j < Height; j++)
+                    _buffer[i, j] = Double.MaxValue;
         }
 
         private bool IsValidPixel(int x, int y)
