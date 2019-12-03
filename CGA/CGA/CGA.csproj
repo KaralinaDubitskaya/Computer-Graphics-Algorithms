@@ -62,6 +62,7 @@
     <Compile Include="algorithms\lighting\ILighting.cs" />
     <Compile Include="algorithms\lighting\LambertLighting.cs" />
     <Compile Include="algorithms\CoordTransformations.cs" />
+    <Compile Include="algorithms\shader\GouraudShading.cs" />
     <Compile Include="algorithms\shader\PlaneShading.cs" />
     <Compile Include="LambertLigning.cs" />
     <Compile Include="models\Model.cs" />

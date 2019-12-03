@@ -128,7 +128,7 @@ namespace CGA.algorithms
         }
 
         // Целочисленный алгоритм Брезенхема для отрисовки ребра
-        protected void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
+        protected virtual void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
         {
             Color color = src.Color;
 

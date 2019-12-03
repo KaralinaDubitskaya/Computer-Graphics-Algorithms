@@ -18,6 +18,7 @@ using CGA.models;
 using CGA.parser;
 using CGA.utils;
 using CGA.algorithms.lighting;
+using CGA.algorithms.shader;
 
 namespace CGA
 {
@@ -71,8 +72,14 @@ namespace CGA
                     //bresenham.DrawModel(color);
 
                     // lab 3
-                    LambertLighting lighting = new LambertLighting(new Vector3(1,0,0));
-                    PlaneShading shader = new PlaneShading(bitmap, model, lighting);
+                    //LambertLighting lighting = new LambertLighting(new Vector3(1, 0, 0));
+                    //PlaneShading shader = new PlaneShading(bitmap, model, lighting);
+                    //Color color = Color.FromRgb(128, 128, 128);
+                    //shader.DrawModel(color);
+
+                    // lab 4 Гуро
+                    LambertLighting lighting = new LambertLighting(new Vector3(1, 0, 0));
+                    GouraudShading shader = new GouraudShading(bitmap, model, lighting);
                     Color color = Color.FromRgb(128, 128, 128);
                     shader.DrawModel(color);
 

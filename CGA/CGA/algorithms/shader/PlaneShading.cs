@@ -12,8 +12,8 @@ namespace CGA.algorithms
 {
     public class PlaneShading : BresenhamAlg
     {
-        private ZBuffer _zBuffer;
-        private ILighting _lighting;
+        protected ZBuffer _zBuffer;
+        protected ILighting _lighting;
 
         public PlaneShading(Bgr24Bitmap bitmap, Model model, ILighting lighting)
             : base(bitmap, model)
@@ -33,7 +33,7 @@ namespace CGA.algorithms
             });
         }
 
-        private void DrawFace(List<Vector3> face)
+        protected void DrawFace(List<Vector3> face)
         {
             Color color = GetFaceColor(face, _color);
             List<Pixel> sidesPixels = new List<Pixel>();
@@ -89,7 +89,7 @@ namespace CGA.algorithms
         }
 
         // Отрисовка грани изнутри
-        private void DrawPixelsInFace(List<Pixel> sidesPixels) // список всех точек ребер грани
+        protected virtual void DrawPixelsInFace(List<Pixel> sidesPixels) // список всех точек ребер грани
         {
             (int? minY, int? maxY) = GetMinMaxY(sidesPixels);
             if (minY == null || maxY == null) return;
