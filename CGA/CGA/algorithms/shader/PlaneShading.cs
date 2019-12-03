@@ -24,15 +24,13 @@ namespace CGA.algorithms
 
         public override void DrawModel()
         {
-            // Parallel.ForEach(_model.TriangleFaces, face =>
-            foreach (var face in _model.TriangleFaces)
+            Parallel.ForEach(_model.TriangleFaces, face =>
             {
                 if (IsFaceVisible(face))
                 {
                     DrawFace(face);
                 }
-            }
-            //});
+            });
         }
 
         private void DrawFace(List<Vector3> face)

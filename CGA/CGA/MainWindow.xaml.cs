@@ -65,12 +65,16 @@ namespace CGA
                 if (model.CheckSize(width, height))
                 {
 
+                    // lab 1-2
                     //BresenhamAlg bresenham = new BresenhamAlg(bitmap, model);
-                    LambertLighting lighting = new LambertLighting(new Vector3(0,0,1));
+                    //Color color = Color.FromRgb(128, 128, 128);
+                    //bresenham.DrawModel(color);
+
+                    // lab 3
+                    LambertLighting lighting = new LambertLighting(new Vector3(1,0,0));
                     PlaneShading shader = new PlaneShading(bitmap, model, lighting);
                     Color color = Color.FromRgb(128, 128, 128);
                     shader.DrawModel(color);
-                    //bresenham.DrawModel(color);
 
                     screenPictureBox.Source = bitmap.Source;
                 }

@@ -20,7 +20,7 @@ namespace CGA.algorithms.lighting
         // TODO fix
         public Color GetPointColor(Vector3 normal, Color color)
         {
-            double coef = Math.Max(Vector3.Dot(normal, _lightVector), 0);
+            double coef = Math.Max(Vector3.Dot(Vector3.Multiply(-1f, normal), _lightVector), 0);
             byte r = (byte)Math.Round(color.R * coef);
             byte g = (byte)Math.Round(color.G * coef);
             byte b = (byte)Math.Round(color.B * coef);
