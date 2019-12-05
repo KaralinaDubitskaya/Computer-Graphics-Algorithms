@@ -66,7 +66,7 @@ namespace CGA.algorithms
         }
 
         // Отрисовывание ребра
-        protected void DrawSide(List<Vector3> face, int index1, int index2, Color color, List<Pixel> sidesPixels = null)
+        protected virtual void DrawSide(List<Vector3> face, int index1, int index2, Color color, List<Pixel> sidesPixels = null)
         {
             var point1 = GetFacePoint(face, index1, color);
             var point2 = GetFacePoint(face, index2, color);
@@ -128,7 +128,7 @@ namespace CGA.algorithms
         }
 
         // Целочисленный алгоритм Брезенхема для отрисовки ребра
-        protected void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
+        protected virtual void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
         {
             Color color = src.Color;
 
