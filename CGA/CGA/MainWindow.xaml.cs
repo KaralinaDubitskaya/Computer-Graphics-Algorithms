@@ -60,16 +60,17 @@ namespace CGA
                 Bgr24Bitmap bitmap = new Bgr24Bitmap(source);
      
                 ModelParams modelParams = GetModelsParams();
-             
-          
-                CoordTransformations.TransformFromWorldToView(model, modelParams);                         
-                if (model.CheckSize(width, height))
+                Model modelMain = model.Clone() as Model;
+    
+                //CoordTransformations.PutObjectInWorldProjectionScreenSpace(model, modelParams);
+                 CoordTransformations.TransformFromWorldToView(modelMain, modelParams);                         
+                if (modelMain.CheckSize(width, height))
                 {
 
                     // lab 1-2
-                    //BresenhamAlg bresenham = new BresenhamAlg(bitmap, model);
-                    //Color color = Color.FromRgb(128, 128, 128);
-                    //bresenham.DrawModel(color);
+                    BresenhamAlg bresenham = new BresenhamAlg(bitmap, modelMain);
+                    Color color = Color.FromRgb(128, 128, 128);
+                    bresenham.DrawModel(color);
 
                     // lab 3
                     //LambertLighting lighting = new LambertLighting(new Vector3(1, 0, 0));
@@ -78,10 +79,10 @@ namespace CGA
                     //shader.DrawModel(color);
 
                     // lab 4 Гуро
-                    LambertLighting lighting = new LambertLighting(new Vector3(1, 0, 0));
-                    GouraudShading shader = new GouraudShading(bitmap, model, lighting);
-                    Color color = Color.FromRgb(128, 128, 128);
-                    shader.DrawModel(color);
+                    //LambertLighting lighting = new LambertLighting(new Vector3(1, 0, 0));
+                    //GouraudShading shader = new GouraudShading(bitmap, model, lighting);
+                    //Color color = Color.FromRgb(128, 128, 128);
+                   // shader.DrawModel(color);
 
                     screenPictureBox.Source = bitmap.Source;
                 }
