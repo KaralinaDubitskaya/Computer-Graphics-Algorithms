@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace CGA.models
 {
-    public class Model
+    public class Model : ICloneable
+
     {
         public List<Vector4> Points { get; set; }
         public List<List<Vector3>> Faces { get;  set; }
@@ -58,6 +59,15 @@ namespace CGA.models
             }
 
             return result;
+        }
+
+        public object Clone()
+        {
+            var Points = this.Points.Select(x => x).ToList();
+            var Normals = this.Normals.Select(x => x).ToList();
+            var obj = new Model(Points, Faces, Textures, Normals, TriangleFaces);
+          
+            return obj;
         }
 
 

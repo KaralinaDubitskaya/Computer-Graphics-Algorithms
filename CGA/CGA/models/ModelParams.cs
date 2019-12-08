@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CGA.models
 {
-    public class ModelParams
+    public class ModelParams: ICloneable
     {
         public float Scaling { get; set; }
         public float ModelYaw { get; set; }
@@ -58,6 +58,12 @@ namespace CGA.models
             this.Height = height;
             this.Width = width;
 
+        }
+        public object Clone()
+        {
+            return new ModelParams(Scaling, ModelYaw, ModelPitch, ModelRoll, TranslationX, TranslationY, TranslationZ,
+                CameraPositionX, CameraPositionY, CameraPositionZ, CameraYaw, CameraPitch, CameraRoll, FieldOfView, AspectRatio, NearPlaneDistance,
+                FarPlaneDistance, XMin, YMin, Width, Height);
         }
     }
 
