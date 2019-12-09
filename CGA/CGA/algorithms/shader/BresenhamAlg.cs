@@ -158,13 +158,13 @@ namespace CGA.algorithms
 
                 int err2 = err * 2;      // модифицированное значение ошибки
 
-                if (err2 > -dy)          // dx > dy / 2
+                if (err2 > -dy)          
                 {
                     p.X += signX;        // изменияем x на единицу
                     err -= dy;           // корректируем ошибку
                 }
 
-                if (err2 < dx)           // dy > dx / 2
+                if (err2 < dx)           
                 {
                     p.Y += signY;            // изменяем y на единицу
                     curZ += signZ * deltaZ;  // меняем z
