@@ -54,43 +54,55 @@ namespace CGA
 
         private void DrawButton_Click(object sender, RoutedEventArgs e)
         {
-            if (model != null)
+            try
             {
-                WriteableBitmap source = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
-                Bgr24Bitmap bitmap = new Bgr24Bitmap(source);
-     
-                ModelParams modelParams = GetModelsParams();
-                Model modelMain = model.Clone() as Model;
-    
-                //CoordTransformations.PutObjectInWorldProjectionScreenSpace(model, modelParams);
-                 CoordTransformations.TransformFromWorldToView(modelMain, modelParams);                         
-                if (modelMain.CheckSize(width, height))
+                if (model != null)
                 {
+                    WriteableBitmap source = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
+                    Bgr24Bitmap bitmap = new Bgr24Bitmap(source);
 
-                    // lab 1-2
-                    BresenhamAlg bresenham = new BresenhamAlg(bitmap, modelMain);
-                    Color color = Color.FromRgb(128, 128, 128);
-                    bresenham.DrawModel(color);
+                    ModelParams modelParams = GetModelsParams();
+                    Model modelMain = model.Clone() as Model;
 
-                    // lab 3
-                    //LambertLighting lighting = new LambertLighting(new Vector3(1, 0, 0));
-                    //PlaneShading shader = new PlaneShading(bitmap, model, lighting);
-                    //Color color = Color.FromRgb(128, 128, 128);
-                    //shader.DrawModel(color);
+                    //CoordTransformations.PutObjectInWorldProjectionScreenSpace(model, modelParams);
+                    CoordTransformations.PutObjectInWorldProjectionScreenSpace(modelMain, modelParams);
+                    if (modelMain.CheckSize(width, height))
+                    {
 
-                    // lab 4 Гуро
-                    //LambertLighting lighting = new LambertLighting(new Vector3(1, 0, 0));
-                    //GouraudShading shader = new GouraudShading(bitmap, model, lighting);
-                    //Color color = Color.FromRgb(128, 128, 128);
-                   // shader.DrawModel(color);
+                        Color color = Color.FromRgb(byte.Parse(colorRTextBox.Text), byte.Parse(colorGTextBox.Text), byte.Parse(colorBTextBox.Text));
+                        Vector3 lighting = new Vector3(int.Parse(lightVectorXTextBox.Text), int.Parse(lightVectorYTextBox.Text), int.Parse(lightVectorZTextBox.Text));
 
-                    screenPictureBox.Source = bitmap.Source;
+                        if (bresenhamRadioButton.IsChecked == true)
+                        {
+                            // lab 1-2
+                            BresenhamAlg bresenham = new BresenhamAlg(bitmap, modelMain);
+                            bresenham.DrawModel(color);
+                        }
+                        else if (plainShadingRadioButton.IsChecked == true)
+                        {
+                            // lab 3
+                            PlaneShading shader = new PlaneShading(bitmap, modelMain, new LambertLighting(lighting));
+                            shader.DrawModel(color);
+                        }
+                        else if (gouraudShadingRadioButton.IsChecked == true)
+                        {
+                            // lab 4 Гуро
+                            GouraudShading shader = new GouraudShading(bitmap, modelMain, new LambertLighting(lighting));
+                            shader.DrawModel(color);
+                        }
+
+                        screenPictureBox.Source = bitmap.Source;
+                    }
+
                 }
-           
+                else
+                {
+                    MessageBox.Show("Load an object");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Load an object");
+                MessageBox.Show("Произошла ошибка! " + ex);
             }
         }
 
@@ -120,6 +132,12 @@ namespace CGA
         {
 
         }
+
+        private void ChangeColorParamsEvent(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         private ModelParams GetModelsParams()
         {
