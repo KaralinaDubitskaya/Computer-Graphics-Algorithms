@@ -90,6 +90,12 @@ namespace CGA
                             GouraudShading shader = new GouraudShading(bitmap, modelMain, new LambertLighting(lighting));
                             shader.DrawModel(color);
                         }
+                        else if (phongShadingRadioButton.IsChecked == true)
+                        {
+                            // затенение фонга
+                            PhongShading shader = new PhongShading(bitmap, modelMain, new LambertLighting(lighting));
+                            shader.DrawModel(color);
+                        }
 
                         screenPictureBox.Source = bitmap.Source;
                     }
