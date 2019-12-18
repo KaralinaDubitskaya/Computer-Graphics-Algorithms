@@ -37,17 +37,12 @@ namespace CGA.algorithms.shader
             // получение самой вершины
             Vector4 point = _model.Points[indexPoint];
 
-            return new Pixel((int)point.X, (int)point.Y, point.Z, (int)point.W, _color, normal);
+            return new Pixel((int)point.X, (int)point.Y, point.Z, _color, normal);
         }
 
         // Целочисленный алгоритм Брезенхема для отрисовки ребра
         protected override void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
         {
-            // ???
-            src.W = 1 / src.W;
-            desc.W = 1 / desc.W;
-            src.Normal *= src.W;
-            desc.Normal *= desc.W;
 
             // разница координат начальной и конечной точек
             int dx = Math.Abs(desc.X - src.X);
@@ -66,11 +61,9 @@ namespace CGA.algorithms.shader
             float deltaZ = dz / dy;  // при изменении y будем менять z
 
 
-            // ??
+            // интерполяция нормалей
             Vector3 deltaNormal = (desc.Normal - src.Normal) / dy;
-            float deltaW = (desc.W - src.W) / dy;
             Vector3 curNormal = src.Normal;
-            float curW = src.W;
 
             int err = dx - dy;   // ошибка
 
@@ -78,7 +71,7 @@ namespace CGA.algorithms.shader
             while (p.X != desc.X || p.Y != desc.Y)
             {
                 // пиксель внутри окна
-                DrawPixel(p.X, p.Y, curZ, curW, curNormal, _color, sidesPixels);
+                DrawPixel(p.X, p.Y, curZ, curNormal, _color, sidesPixels);
 
                 int err2 = err * 2;      // модифицированное значение ошибки
 
@@ -95,21 +88,20 @@ namespace CGA.algorithms.shader
                     err += dx;               // корректируем ошибку   
 
 
-                    curW += deltaW;
                     curNormal += deltaNormal;
                 }
             }
 
             // отрисовывем последний пиксель
-            DrawPixel(desc.X, desc.Y, desc.Z, desc.W, desc.Normal, _color, sidesPixels);
+            DrawPixel(desc.X, desc.Y, desc.Z, desc.Normal, _color, sidesPixels);
         }
 
-        protected virtual void DrawPixel(int x, int y, float z, float w, Vector3 normal, Color color, List<Pixel> sidesPixels = null)
+        protected virtual void DrawPixel(int x, int y, float z, Vector3 normal, Color color, List<Pixel> sidesPixels = null)
         {
 
-            Color pixelColor = _lighting.GetPointColor(normal / w, color);
+            Color pixelColor = _lighting.GetPointColor(normal, color);
 
-            sidesPixels.Add(new Pixel(x, y, z, w, pixelColor, normal));   // добавляеи точку в список граничных точек грани
+            sidesPixels.Add(new Pixel(x, y, z, pixelColor, normal));   // добавляеи точку в список граничных точек грани
 
             if (x > 0 && x < _bitmap.PixelWidth &&
                 y > 0 && y < _bitmap.PixelHeight &&
@@ -137,24 +129,20 @@ namespace CGA.algorithms.shader
                 float z = start.Z;                                       // в какую сторону приращение z
                 float dz = (end.Z - start.Z) / Math.Abs((float)(end.X - start.X));  // z += dz при изменении x
 
-
                 Vector3 deltaNormal = (end.Normal - start.Normal) / (float)(end.X - start.X);
-                float deltaW = (end.W - start.W) / (float)(end.X - start.X);
                 Vector3 curNormal = start.Normal;
-                float curW = start.W;
 
                 // отрисовываем линию
                 for (int x = start.X; x < end.X; x++, z += dz)
                 {
                     curNormal += deltaNormal;
-                    curW += deltaW;
 
                     if ((x > 0) && (x < _zBuffer.Width) &&           // x попал в область экрана
                         (y > 0) && (y < _zBuffer.Height) &&          // y попал в область экрана
                         (z <= _zBuffer[x, y]) && (z > 0 && z < 1))   // z координата отображаемая
                     {
                         _zBuffer[x, y] = z;
-                        _bitmap[x, y] = _lighting.GetPointColor(curNormal / curW, _color);
+                        _bitmap[x, y] = _lighting.GetPointColor(curNormal, _color);
                     }
                 }
             }
