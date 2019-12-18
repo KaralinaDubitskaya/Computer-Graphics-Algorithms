@@ -239,9 +239,9 @@ namespace CGA.models
 
 
 
-        public static Matrix GetViewPortMatrix(int minX, int minY, int width, int height, int x)
+        public static Matrix4x4 GetViewPortMatrix(int minX, int minY, int width, int height, int x)
         {
-            return new Matrix(width / 2, 0, 0, 0,
+            return new Matrix4x4(width / 2, 0, 0, 0,
                                  0, -1 * height / 2, 0, 0,
                                  0, 0, 1, 0,
                                  minX + width / 2, minY + height / 2, 0, 1);

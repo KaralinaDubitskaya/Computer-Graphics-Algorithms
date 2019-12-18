@@ -78,7 +78,7 @@ namespace CGA.algorithms
         protected bool IsFaceVisible(List<Vector3> face)
         {
             var normal = GetFaceNormal(face);
-            return normal.Z < 0;
+            return normal.Z > 0;
         }
 
         // Получение нормали к грани

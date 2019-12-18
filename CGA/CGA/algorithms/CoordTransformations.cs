@@ -16,12 +16,12 @@ namespace CGA.algorithms
         public static void  TransformFromWorldToView(Model model, ModelParams modelParams)
         {
             CoordTransformations c = new CoordTransformations();
-            Matrix worldProjctionMatix =  c.GetWorldProjectionMatrix(modelParams);
+            Matrix4x4 worldProjctionMatix = c.GetMVP(modelParams);
             float[] w = new float[model.Points.Count];
 
             for (int i = 0; i < model.Points.Count; i++)
             {
-                model.Points[i] = TransformVector.Transform(model.Points[i], worldProjctionMatix);
+                model.Points[i] = Vector4.Transform(model.Points[i], worldProjctionMatix);
 
                 w[i] = model.Points[i].W;
                 model.Points[i] /= model.Points[i].W;
@@ -32,34 +32,27 @@ namespace CGA.algorithms
         }
 
 
-        private Matrix GetWorldMatrix(ModelParams modelParams)
+        private Matrix4x4 GetWorldMatrix(ModelParams modelParams)
         {
-            return Matrix.GetScaleMatrix(modelParams.Scaling, modelParams.Scaling, modelParams.Scaling) *  
-               Matrix.Transpose(Matrix.GetTranslationMatrix(modelParams.TranslationX, modelParams.TranslationY, modelParams.TranslationZ) *
-               Matrix.GetRotationZMatrix(modelParams.ModelYaw) * Matrix.GetRotationYMatrix(modelParams.ModelPitch) * Matrix.GetRotationXMatrix(modelParams.ModelRoll))   ;
+            return Matrix4x4.CreateScale(modelParams.Scaling) * Matrix4x4.CreateFromYawPitchRoll(modelParams.ModelYaw, modelParams.ModelPitch, modelParams.ModelRoll)
+                * Matrix4x4.CreateTranslation(modelParams.TranslationX, modelParams.TranslationY, modelParams.TranslationZ);
         }
 
  
-        private Matrix GetViewerMatrix(ModelParams modelParams)
+        private Matrix4x4 GetViewerMatrix(ModelParams modelParams)
         {
 
            return
-                Matrix.Transpose(Matrix.GetTranslationMatrix(-modelParams.CameraPositionX, -modelParams.CameraPositionY, -modelParams.CameraPositionZ))*
-                Matrix.GetRotationZMatrix(modelParams.ModelYaw) * Matrix.GetRotationYMatrix(modelParams.ModelPitch) *
-                  Matrix.GetRotationXMatrix(modelParams.ModelRoll)   ;
-        
+                Matrix4x4.CreateTranslation(-new Vector3(modelParams.CameraPositionX, modelParams.CameraPositionY, modelParams.CameraPositionZ))
+                * Matrix4x4.Transpose(Matrix4x4.CreateFromYawPitchRoll(modelParams.CameraYaw, modelParams.CameraPitch, modelParams.CameraRoll));
         }
 
 
-        private Matrix GetProjectionMatrix(ModelParams modelParams)
-        {
-           return Matrix.GetPerspectiveFieldOfView(modelParams.FieldOfView, modelParams.AspectRatio, modelParams.NearPlaneDistance, modelParams.FarPlaneDistance);
+      
 
-        }
-
-        private Matrix GetWorldProjectionMatrix(ModelParams modelParams)
+        private Matrix4x4 GetWorldProjectionMatrix(ModelParams modelParams)
         {
-            return GetWorldMatrix(modelParams) * GetViewerMatrix(modelParams) * GetProjectionMatrix(modelParams);
+            return Matrix4x4.CreatePerspectiveFieldOfView(modelParams.FieldOfView, modelParams.AspectRatio, modelParams.NearPlaneDistance, modelParams.FarPlaneDistance);
         }
 
 
@@ -68,25 +61,31 @@ namespace CGA.algorithms
         {
             for (int i = 0; i < model.Normals.Count; i++)
             {
-                model.Normals[i] = Vector3.Normalize(TransformVector.TransformNormal(model.Normals[i], GetWorldMatrix(modelParams)));
+                model.Normals[i] = Vector3.Normalize(Vector3.TransformNormal(model.Normals[i], GetWorldMatrix(modelParams)));
             }
         }
-
-        private Matrix GetViewPortMetrix( ModelParams modelParams)
+        
+        private static Matrix4x4 GetViewPortMetrix( ModelParams modelParams)
         {
 
             return Matrix.GetViewPortMatrix(modelParams.XMin, modelParams.YMin, modelParams.Width, modelParams.Height, (int)modelParams.FarPlaneDistance);
            
         }
 
+        private Matrix4x4 GetMVP(ModelParams modelParams)
+        {
+            return GetWorldMatrix(modelParams) * GetViewerMatrix(modelParams) * GetWorldProjectionMatrix(modelParams);
+        }
+
         private void transformToViewPort(Model model, ModelParams modelParams, float[] w)
         {
             for (int i = 0; i < model.Points.Count; i++)
             {
-                model.Points[i] = TransformVector.Transform(model.Points[i], GetViewPortMetrix(modelParams));
+                model.Points[i] = Vector4.Transform(model.Points[i], GetViewPortMetrix(modelParams));
                 model.Points[i] = new Vector4(model.Points[i].X, model.Points[i].Y, model.Points[i].Z, w[i]);
             }
         }
+
 
     }
 }

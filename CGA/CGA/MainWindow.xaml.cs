@@ -64,8 +64,8 @@ namespace CGA
                     ModelParams modelParams = GetModelsParams();
                     Model modelMain = model.Clone() as Model;
 
-                    //CoordTransformations.PutObjectInWorldProjectionScreenSpace(model, modelParams);
-                    CoordTransformations.PutObjectInWorldProjectionScreenSpace(modelMain, modelParams);
+                    CoordTransformations.TransformFromWorldToView(modelMain, modelParams);
+                 
                     if (modelMain.CheckSize(width, height))
                     {
 
