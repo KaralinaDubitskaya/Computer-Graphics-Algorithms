@@ -177,7 +177,7 @@ namespace CGA.algorithms
         }
 
         // Получение вершины грани
-        protected Pixel GetFacePoint(List<Vector3> face, int i, Color color)
+        protected virtual Pixel GetFacePoint(List<Vector3> face, int i, Color color)
         {
             // индексы вершин в массиве Points - их x-координаты
             int indexPoint = (int)face[i].X;

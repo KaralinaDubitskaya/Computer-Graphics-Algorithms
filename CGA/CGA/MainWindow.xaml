@@ -71,6 +71,7 @@
                 <RadioButton x:Name="bresenhamRadioButton" Content="Bresenham" HorizontalAlignment="Left" Margin="-3,10,0,0" VerticalAlignment="Top"  Click="DrawButton_Click"/>
                 <RadioButton x:Name="plainShadingRadioButton"  Content="Plane Shading" HorizontalAlignment="Left" Margin="-3,35,0,0" VerticalAlignment="Top"  Click="DrawButton_Click"/>
                 <RadioButton x:Name="gouraudShadingRadioButton" Content="Gouraud Shading" HorizontalAlignment="Left" Margin="-3,60,0,0" VerticalAlignment="Top"  Click="DrawButton_Click"/>
+                <RadioButton x:Name="phongShadingRadioButton" Content="Phong Shading" HorizontalAlignment="Left" Margin="-3,84,0,-17.2" VerticalAlignment="Top"  Click="DrawButton_Click"/>
             </Grid>
         </GroupBox>
         <TextBox x:Name="lightVectorXTextBox" HorizontalAlignment="Left" Height="20"  TextWrapping="Wrap" VerticalAlignment="Top" Width="52" Text="0" MaxLength="7" TextChanged="ChangeLightingParamsEvent" Grid.Column="1" Grid.Row="12" Margin="38,2.6,0,0"/>

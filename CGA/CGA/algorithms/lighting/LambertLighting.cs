@@ -17,7 +17,6 @@ namespace CGA.algorithms.lighting
             _lightVector = vector;
         }
 
-        // TODO fix
         public Color GetPointColor(Vector3 normal, Color color)
         {
             double coef = Math.Max(Vector3.Dot(Vector3.Multiply(-1f, normal), Vector3.Normalize(_lightVector)), 0);
