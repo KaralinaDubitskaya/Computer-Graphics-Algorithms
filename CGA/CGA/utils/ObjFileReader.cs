@@ -13,6 +13,11 @@ namespace CGA.utils
 {
     public class ObjFileReader
     {
+        private static string pathFile;
+
+        private static string initialDirectory;
+
+        
         public static string[] Execute()
         {
             var openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -22,11 +27,26 @@ namespace CGA.utils
            
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string path = openFileDialog.FileName;                
+                string path = openFileDialog.FileName;
+                pathFile = path;
+                initialDirectory = openFileDialog.InitialDirectory;
                 fileLines = File.ReadAllLines(path, Encoding.UTF8);          
                
             }
             return fileLines;
         }
+
+        public static string getFileName()
+        {
+            return System.IO.Path.GetFileNameWithoutExtension(pathFile);
+        }
+
+        public static string getDiffusePath()
+        {
+            return pathFile.Substring(0,pathFile.LastIndexOf(@"\"))
+                + @"\"  + "Albedo Map.png";
+        }
+
+
     }
 }

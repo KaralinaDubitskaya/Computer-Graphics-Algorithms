@@ -15,6 +15,8 @@ namespace CGA.models
         public List<List<Vector3>> TriangleFaces { get; set; }
         public List<Vector3> Textures { get;  set; }
         public List<Vector3> Normals { get; set; }
+        public Bgr24Bitmap normalsTexture { get; set; }
+        public Bgr24Bitmap diffuseTexture { get; set; }
 
         public Model(List<Vector4> points, List<List<Vector3>> faces, List<Vector3> texture, List<Vector3> normal, List<List<Vector3>> triangleFaces)
         {
