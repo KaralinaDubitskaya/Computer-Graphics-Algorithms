@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="algorithms\lighting\PhongLighting.cs" />
     <Compile Include="algorithms\shader\BresenhamAlg.cs" />
     <Compile Include="algorithms\lighting\ILighting.cs" />
     <Compile Include="algorithms\lighting\LambertLighting.cs" />
