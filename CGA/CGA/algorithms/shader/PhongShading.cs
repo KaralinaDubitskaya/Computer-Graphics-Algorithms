@@ -48,8 +48,6 @@ namespace CGA.algorithms.shader
             desc.W = 1 / desc.W;
             src.Normal *= src.W;
             desc.Normal *= desc.W;
-            src.Normal *= src.W;
-            desc.Normal *= desc.W;
 
             // разница координат начальной и конечной точек
             int dx = Math.Abs(desc.X - src.X);
@@ -156,7 +154,6 @@ namespace CGA.algorithms.shader
                         (z <= _zBuffer[x, y]) && (z > 0 && z < 1))   // z координата отображаемая
                     {
                         _zBuffer[x, y] = z;
-                        var color = _lighting.GetPointColor(curNormal / curW, _color);
                         _bitmap[x, y] = _lighting.GetPointColor(curNormal / curW, _color);
                     }
                 }
