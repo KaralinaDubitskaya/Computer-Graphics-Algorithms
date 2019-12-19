@@ -13,6 +13,7 @@ namespace CGA.models
         public int X;
         public int Y;
         public float Z;
+        public float nW;
         public Color Color;
         public Vector3 Normal;
         public Vector3 Texel;
@@ -22,16 +23,18 @@ namespace CGA.models
             this.X = x;
             this.Y = y;
             this.Z = z;
+            this.nW = 1.0f;
             this.Color = color;
             this.Normal = new Vector3(0);
             this.Texel = new Vector3(0);
         }
 
-        public Pixel(int x, int y, float z, Color color, Vector3 normal, Vector3 texel)
+        public Pixel(int x, int y, float z, float nw, Color color, Vector3 normal, Vector3 texel)
         {
             this.X = x;
             this.Y = y;
             this.Z = z;
+            this.nW = nw;
             this.Color = color;
             this.Normal = normal;
             this.Texel = texel;
