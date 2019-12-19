@@ -47,7 +47,8 @@ namespace CGA
                 string[] fileLines = ObjFileReader.Execute();
                 model = ObjParser.Parse(fileLines);
                 model.diffuseTexture = getBgr24BitmapDiffuse();
-          
+                model.normalsTexture = getBgr24BitmapNormals();
+                model.specularTexture = getBgr24BitmapSpecular();
             }
             catch
             {
@@ -66,6 +67,38 @@ namespace CGA
                 imgDiffuse.CreateOptions = BitmapCreateOptions.None;
                 var initialWriteableBitmapDiffuse = new WriteableBitmap(imgDiffuse);
                 return new Bgr24Bitmap(initialWriteableBitmapDiffuse);
+            }
+            else
+                return null;
+        }
+
+        private Bgr24Bitmap getBgr24BitmapNormals()
+        {
+            string path = ObjFileReader.getNormalsPath();
+
+
+            if (File.Exists(path))
+            {
+                BitmapImage imgNormals = new BitmapImage(new Uri(path, UriKind.Relative));
+                imgNormals.CreateOptions = BitmapCreateOptions.None;
+                var initialWriteableBitmapNormals = new WriteableBitmap(imgNormals);
+                return new Bgr24Bitmap(initialWriteableBitmapNormals);
+            }
+            else
+                return null;
+        }
+
+        private Bgr24Bitmap getBgr24BitmapSpecular()
+        {
+            string path = ObjFileReader.getSpecularPath();
+
+
+            if (File.Exists(path))
+            {
+                BitmapImage imgSpecular = new BitmapImage(new Uri(path, UriKind.Relative));
+                imgSpecular.CreateOptions = BitmapCreateOptions.None;
+                var initialWriteableBitmapSpecular = new WriteableBitmap(imgSpecular);
+                return new Bgr24Bitmap(initialWriteableBitmapSpecular);
             }
             else
                 return null;
@@ -119,8 +152,10 @@ namespace CGA
                             Vector3 ambientColor = new Vector3(255, 0, 0);
                             Vector3 reflectionColor = new Vector3(255, 255, 255);
                             float shiness = 30f;
+                            bool texturesEnabled = true;
                             var light = new PhongLighting(lighting, viewVector, koef_a, koef_d, koef_s, ambientColor, reflectionColor, shiness);
-                            PhongShading shader = new PhongShading(bitmap, modelMain, light);
+                            //var light = new LambertLighting(lighting);
+                            PhongShading shader = new PhongShading(bitmap, modelMain, light, texturesEnabled);
                             shader.DrawModel(color);
                         }
 

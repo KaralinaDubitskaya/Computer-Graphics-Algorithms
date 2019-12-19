@@ -47,6 +47,15 @@ namespace CGA.utils
                 + @"\"  + "Albedo Map.png";
         }
 
-
+        public static string getNormalsPath()
+        {
+            return pathFile.Substring(0, pathFile.LastIndexOf(@"\"))
+                + @"\" + "Normal Map.png";
+        }
+        public static string getSpecularPath()
+        {
+            return pathFile.Substring(0, pathFile.LastIndexOf(@"\"))
+                + @"\" + "Specular Map.png";
+        }
     }
 }
