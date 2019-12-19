@@ -108,8 +108,10 @@ namespace CGA
         {
             try
             {
+                textureEnabled(false);
                 if (model != null)
                 {
+                    
                     WriteableBitmap source = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
                     Bgr24Bitmap bitmap = new Bgr24Bitmap(source);
 
@@ -136,14 +138,10 @@ namespace CGA
                             PlaneShading shader = new PlaneShading(bitmap, modelMain, new LambertLighting(lighting));
                             shader.DrawModel(color);
                         }
-                        else if (gouraudShadingRadioButton.IsChecked == true)
-                        {
-                            // lab 4 Гуро
-                            GouraudShading shader = new GouraudShading(bitmap, modelMain, new LambertLighting(lighting));
-                            shader.DrawModel(color);
-                        }
+                      
                         else if (phongShadingRadioButton.IsChecked == true)
                         {
+                            textureEnabled(true);
                             // затенение фонга
                             Vector3 viewVector = new Vector3(0, 0, -1);
                             Vector3 koef_a = new Vector3(0.2f, 0.2f, 0.2f);
@@ -153,11 +151,17 @@ namespace CGA
                             Vector3 reflectionColor = new Vector3(255, 255, 255);
                             float shiness = 30f;
                             bool texturesEnabled = true;
+                            if ((diffuseCheckBox != null && (bool)diffuseCheckBox.IsChecked)  ||( normalCheckBox != null && (bool)normalCheckBox.IsChecked) || (mirrorCheckBox != null && (bool)mirrorCheckBox.IsChecked))
+                            {
+                                texturesEnabled = !(texturesEnabled);
+                            }
+                           
                             var light = new PhongLighting(lighting, viewVector, koef_a, koef_d, koef_s, ambientColor, reflectionColor, shiness);
                             //var light = new LambertLighting(lighting);
                             PhongShading shader = new PhongShading(bitmap, modelMain, light, texturesEnabled);
                             shader.DrawModel(color);
                         }
+                        
 
                         screenPictureBox.Source = bitmap.Source;
                     }
@@ -172,6 +176,13 @@ namespace CGA
             {
                 MessageBox.Show("Произошла ошибка! " + ex);
             }
+        }
+
+        private void textureEnabled(bool flag)
+        {
+            diffuseCheckBox.IsEnabled = flag;
+            normalCheckBox.IsEnabled = flag;
+            mirrorCheckBox.IsEnabled = flag;
         }
 
         private void NearPlaneDistanceSlider_ValueChanged(object sender, RoutedEventArgs e)
