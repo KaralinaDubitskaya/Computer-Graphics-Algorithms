@@ -153,8 +153,8 @@ namespace CGA
                             Vector3 reflectionColor = new Vector3(255, 255, 255);
                             float shiness = 30f;
                             bool texturesEnabled = true;
-                            //var light = new PhongLighting(lighting, viewVector, koef_a, koef_d, koef_s, ambientColor, reflectionColor, shiness);
-                            var light = new LambertLighting(lighting);
+                            var light = new PhongLighting(lighting, viewVector, koef_a, koef_d, koef_s, ambientColor, reflectionColor, shiness);
+                            //var light = new LambertLighting(lighting);
                             PhongShading shader = new PhongShading(bitmap, modelMain, light, texturesEnabled);
                             shader.DrawModel(color);
                         }
