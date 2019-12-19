@@ -150,15 +150,23 @@ namespace CGA
                             Vector3 ambientColor = new Vector3(int.Parse(colorRTextBox_Ambient.Text), int.Parse(colorGTextBox_Ambient.Text), int.Parse(colorBTextBox_Ambient.Text));
                             Vector3 reflectionColor = new Vector3(int.Parse(colorRTextBox_Reflection.Text), int.Parse(colorGTextBox_Reflecion.Text), int.Parse(colorBTextBox_Reflection.Text));
                             float shiness = float.Parse(shinessBox.Text);
-                            bool texturesEnabled = true;
-                            if ((diffuseCheckBox != null && (bool)diffuseCheckBox.IsChecked)  ||( normalCheckBox != null && (bool)normalCheckBox.IsChecked) || (mirrorCheckBox != null && (bool)mirrorCheckBox.IsChecked))
+                            bool d = false, n = false, s = false;
+                            if ((diffuseCheckBox != null && (bool)diffuseCheckBox.IsChecked))
                             {
-                                texturesEnabled = true;
+                                d = true;
                             }
-                           
-                            var light = new PhongLighting(lighting, viewVector, koef_a, koef_d, koef_s, ambientColor, reflectionColor, shiness);
+                            if ((normalCheckBox != null && (bool)normalCheckBox.IsChecked) )
+                            {
+                                n = true;
+                            }
+                            if ( (mirrorCheckBox != null && (bool)mirrorCheckBox.IsChecked))
+                            {
+                                s = true;
+                            }
+
+                            var light = new PhongLighting(lighting, viewVector, koef_a, koef_d, koef_s, ambientColor, reflectionColor, shiness, d, n, s);
                             //var light = new LambertLighting(lighting);
-                            PhongShading shader = new PhongShading(bitmap, modelMain, light, texturesEnabled);
+                            PhongShading shader = new PhongShading(bitmap, modelMain, light, d, n ,s);
                             shader.DrawModel(color);
                         }
                         

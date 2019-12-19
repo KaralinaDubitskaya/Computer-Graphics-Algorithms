@@ -12,12 +12,18 @@ namespace CGA.algorithms.shader
 {
     public class PhongShading : PlaneShading
     {
+        private bool _d;
+        private bool _n;
+        private bool _s;
         private bool _texturesEnabled;
 
-        public PhongShading(Bgr24Bitmap bitmap, Model model, ILighting lighting, bool texturesEnabled)
+        public PhongShading(Bgr24Bitmap bitmap, Model model, ILighting lighting, bool d, bool n, bool s)
            : base(bitmap, model, lighting)
         {
-            _texturesEnabled = texturesEnabled;
+            _d = d;
+            _n = n;
+            _s = s;
+            _texturesEnabled = d || n || s;
         }
 
         // Отрисовывание ребра
