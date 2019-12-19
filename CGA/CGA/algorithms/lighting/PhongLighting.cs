@@ -57,51 +57,11 @@ namespace CGA.algorithms.lighting
         // Refactor
         public Color GetPointColor(Model model, Vector3 texel, Vector3 argNormal)
         {
-            //// в текстуре координатный центр в нижнем левом углу
-            //var x = texel.X * model.diffuseTexture.PixelWidth;
-            //var y = (1 - texel.Y) * model.diffuseTexture.PixelHeight;  
-
-            //// повторение текстуры
-            //x = x % model.diffuseTexture.PixelWidth;
-            //y = y % model.diffuseTexture.PixelHeight;
-
-            //if (x < 0 || y < 0)
-            //{
-            //    return Color.FromArgb(255, 0, 0, 0);
-            //}
-
-            //Vector3 normal = argNormal;
-            //if (model.normalsTexture != null)
-            //{
-            //    normal = model.normalsTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f));
-            //    normal -= new Vector3(127.5f);
-            //    normal = Vector3.Normalize(Vector3.TransformNormal(Vector3.Normalize(normal), CoordTransformations.ModelWorldMatrix));
-            //}
-
-            //// фоновое освещение
-            //var Ia = model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_a;
-            //// рассеянное освещение
-            //var Id = model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_d * 
-            //                                    Math.Max(Vector3.Dot(normal, _lightVector), 0);
-            //// вектор отраженного луча света
-            //var reflectionVector = Vector3.Normalize(Vector3.Reflect(_lightVector, normal));
-            //// зеркальное освещение
-            //Vector3 Is = (model.specularTexture == null) ? new Vector3(0) :
-            //                model.specularTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_s 
-            //                * (float)Math.Pow(Math.Max(0, Vector3.Dot(reflectionVector, _viewVector)), _shiness);
-
-            //// совмещение компонентов освещения
-            //var light = Ia + Id + Is;
-
-            //byte r = (byte)Math.Min(light.X, 255);
-            //byte g = (byte)Math.Min(light.Y, 255);
-            //byte b = (byte)Math.Min(light.Z, 255);
-
-            //return Color.FromArgb(255, r, g, b);
-
+            // в текстуре координатный центр в нижнем левом углу
             var x = texel.X * model.diffuseTexture.PixelWidth;
             var y = (1 - texel.Y) * model.diffuseTexture.PixelHeight;
 
+            // повторение текстуры
             x = x % model.diffuseTexture.PixelWidth;
             y = y % model.diffuseTexture.PixelHeight;
 
@@ -110,38 +70,33 @@ namespace CGA.algorithms.lighting
                 return Color.FromArgb(255, 0, 0, 0);
             }
 
-            Vector3 normal, occ;
+            Vector3 normal = argNormal;
             if (model.normalsTexture != null)
             {
                 normal = model.normalsTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f));
-                normal.X -= 127.5f;
-                normal.Y -= 127.5f;
-                normal.Z -= 127.5f;
-                normal = Vector3.Normalize(normal);
-                normal = Vector3.Normalize(Vector3.TransformNormal(normal, CoordTransformations.ModelWorldMatrix));
+                normal -= new Vector3(127.5f);
+                normal = Vector3.Normalize(Vector3.TransformNormal(Vector3.Normalize(normal), CoordTransformations.ModelWorldMatrix));
             }
-            else
-            {
-                normal = argNormal;
-            }
-            occ = new Vector3(1);
-            var Ia = (model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) + occ) * _koef_a;
-            var Id = model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_d * Math.Max(Vector3.Dot(normal, _lightVector), 0);
+
+            // фоновое освещение
+            var Ia = model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_a;
+            // рассеянное освещение
+            var Id = model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_d *
+                                                Math.Max(Vector3.Dot(normal, _lightVector), 0);
+            // вектор отраженного луча света
             var reflectionVector = Vector3.Normalize(Vector3.Reflect(_lightVector, normal));
-            Vector3 Is, Ie;
-            if (model.specularTexture != null)
-            {
-                Is = model.specularTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_s * (float)Math.Pow(Math.Max(0, Vector3.Dot(reflectionVector, _viewVector)), _shiness);
-            }
-            else
-            {
-                Is = new Vector3(0);
-            }
-            Ie = new Vector3(0);
-            var sum = Ia + Id + Is + Ie;
-            byte r = (sum.X <= 255) ? (byte)sum.X : (byte)255;
-            byte g = (sum.Y <= 255) ? (byte)sum.Y : (byte)255;
-            byte b = (sum.Z <= 255) ? (byte)sum.Z : (byte)255;
+            // зеркальное освещение
+            Vector3 Is = (model.specularTexture == null) ? new Vector3(0) :
+                            model.specularTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_s
+                            * (float)Math.Pow(Math.Max(0, Vector3.Dot(reflectionVector, _viewVector)), _shiness);
+
+            // совмещение компонентов освещения
+            var light = Ia + Id + Is;
+
+            byte r = (byte)Math.Min(light.X, 255);
+            byte g = (byte)Math.Min(light.Y, 255);
+            byte b = (byte)Math.Min(light.Z, 255);
+
             return Color.FromArgb(255, r, g, b);
         }
     }

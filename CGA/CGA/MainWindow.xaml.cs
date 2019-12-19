@@ -153,7 +153,7 @@ namespace CGA
                             bool texturesEnabled = true;
                             if ((diffuseCheckBox != null && (bool)diffuseCheckBox.IsChecked)  ||( normalCheckBox != null && (bool)normalCheckBox.IsChecked) || (mirrorCheckBox != null && (bool)mirrorCheckBox.IsChecked))
                             {
-                                texturesEnabled = !(texturesEnabled);
+                                texturesEnabled = true;
                             }
                            
                             var light = new PhongLighting(lighting, viewVector, koef_a, koef_d, koef_s, ambientColor, reflectionColor, shiness);
