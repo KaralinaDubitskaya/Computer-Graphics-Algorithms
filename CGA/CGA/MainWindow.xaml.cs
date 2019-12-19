@@ -143,13 +143,13 @@ namespace CGA
                         {
                             textureEnabled(true);
                             // затенение фонга
-                            Vector3 viewVector = new Vector3(0, 0, -1);
-                            Vector3 koef_a = new Vector3(0.2f, 0.2f, 0.2f);
-                            Vector3 koef_d = new Vector3(1.0f, 1.0f, 1.0f);
-                            Vector3 koef_s = new Vector3(0.7f, 0.7f, 0.7f);
-                            Vector3 ambientColor = new Vector3(255, 0, 0);
-                            Vector3 reflectionColor = new Vector3(255, 255, 255);
-                            float shiness = 30f;
+                            Vector3 viewVector = new Vector3(int.Parse(colorRTextBox_View.Text), int.Parse(colorGTextBox_View.Text), int.Parse(colorBTextBox_View.Text));
+                            Vector3 koef_a = new Vector3(float.Parse(colorRTextBox_A.Text), float.Parse(colorGTextBox_A.Text), float.Parse(colorBTextBox_A.Text));
+                            Vector3 koef_d = new Vector3(float.Parse(colorRTextBox_D.Text), float.Parse(colorGTextBox_D.Text), float.Parse(colorBTextBox_D.Text));
+                            Vector3 koef_s = new Vector3(float.Parse(colorRTextBox_S.Text), float.Parse(colorGTextBox_S.Text), float.Parse(colorBTextBox_S.Text));
+                            Vector3 ambientColor = new Vector3(int.Parse(colorRTextBox_Ambient.Text), int.Parse(colorGTextBox_Ambient.Text), int.Parse(colorBTextBox_Ambient.Text));
+                            Vector3 reflectionColor = new Vector3(int.Parse(colorRTextBox_Reflection.Text), int.Parse(colorGTextBox_Reflecion.Text), int.Parse(colorBTextBox_Reflection.Text));
+                            float shiness = float.Parse(shinessBox.Text);
                             bool texturesEnabled = true;
                             if ((diffuseCheckBox != null && (bool)diffuseCheckBox.IsChecked)  ||( normalCheckBox != null && (bool)normalCheckBox.IsChecked) || (mirrorCheckBox != null && (bool)mirrorCheckBox.IsChecked))
                             {

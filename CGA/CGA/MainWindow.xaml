@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CGA"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000">
+        Title="MainWindow" Height="800" Width="1000">
     <Grid RenderTransformOrigin="0.514,0.806">
         <Grid.RowDefinitions>
             <RowDefinition Height="15*"/>
@@ -29,6 +29,8 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
@@ -37,18 +39,18 @@
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="594*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="openFileButton" Content="Open" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="190" RenderTransformOrigin="0.479,0.578" Height="22" Click="OpenFileButton_Click" Grid.ColumnSpan="2" Margin="0,24,0,0"/>
+        <Button x:Name="openFileButton" Content="Open" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="190" RenderTransformOrigin="0.479,0.578" Height="22" Click="OpenFileButton_Click" Grid.ColumnSpan="2" Margin="0,10,0,0"/>
         <Button x:Name="drawButton" Content="Draw" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="190" RenderTransformOrigin="0.566,-2.355" Height="21" Click="DrawButton_Click" Grid.ColumnSpan="2" Margin="0,0,0,10.4"/>
-        <Slider x:Name="scaleSlider" HorizontalAlignment="Left" Value="1" VerticalAlignment="Top" Minimum="1" Maximum="3" SmallChange="0.1"  AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Height="20" Width="100" Margin="0,90,0,0" Grid.RowSpan="2"  />
-        <Label Content="Scaling" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Height="25" Width="48" Grid.RowSpan="3" Margin="0,90,0,0"/>
+        <Slider x:Name="scaleSlider" HorizontalAlignment="Left" Value="1" VerticalAlignment="Top" Minimum="1" Maximum="3" SmallChange="0.1"  AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Height="20" Width="100" Margin="0,0.4,0,0" Grid.RowSpan="2" Grid.Row="1"  />
+        <Label Content="Scaling" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Height="25" Width="48" Margin="2,0.6,0,0" Grid.Row="1"/>
         <Slider x:Name="modelYawSlider" HorizontalAlignment="Left" Value="0" VerticalAlignment="Top"  Minimum="-180" Maximum="180"  SmallChange="15" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Height="18" Grid.Row="1" Width="100" Padding="0" Margin="0,23.6,0,0" Grid.RowSpan="2"/>
         <Label Content="Model Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Height="26" Width="70" Grid.Row="1" Grid.RowSpan="3" Margin="0,23.6,0,0"/>
         <Slider x:Name="modelPitchSlider" HorizontalAlignment="Left"  Value="0" VerticalAlignment="Top"  Minimum="-180"  Maximum="180" SmallChange="5" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1" Grid.RowSpan="2" Height="17" Width="100" Grid.Row="2" Padding="0" Margin="0,23.6,0,0"/>
         <Label Content="Model Pitch" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Grid.RowSpan="3" Height="26" Width="73" Grid.Row="2" Margin="0,23.6,0,0"/>
         <Slider x:Name="modelRollSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Value="0" Width="100"  Minimum="-180" Maximum="180" SmallChange="5" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="1"  Height="18" Grid.Row="3" Margin="0,23.6,0,0" Grid.RowSpan="2"/>
         <Label Content="Model Roll" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="0" Grid.RowSpan="3" Height="26" Width="67" Grid.Row="3" Margin="0,23.6,0,0"/>
-        <Slider x:Name="translationXSlider" HorizontalAlignment="Left"  VerticalAlignment="Top"  Minimum="-20" Maximum="20" SmallChange="5" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Width="100"  Height="17" Margin="0,90,0,0" Grid.RowSpan="2"/>
-        <Label Content="Translation X" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="2" Grid.RowSpan="2" Height="22" Width="90" Margin="0,90,0,0"/>
+        <Slider x:Name="translationXSlider" HorizontalAlignment="Left"  VerticalAlignment="Top"  Minimum="-20" Maximum="20" SmallChange="5" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Width="100"  Height="17" Margin="0,3.4,0,0" Grid.RowSpan="2" Grid.Row="1"/>
+        <Label Content="Translation X" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="2" Height="22" Width="90" Margin="5,98,0,0" Grid.RowSpan="2"/>
         <Slider x:Name="translationYSlider" HorizontalAlignment="Left"  VerticalAlignment="Top"  Minimum="-20" Maximum="20" SmallChange="5" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Height="18" Width="100" Margin="0,23.6,0,0"/>
         <Label Content="Translation Y" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Height="24" Width="77" Margin="0,23.6,0,0"/>
         <Slider x:Name="translationZSlider" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Minimum="-20" Maximum="20" SmallChange="5" AutoToolTipPlacement="TopLeft" Thumb.DragDelta="DrawButton_Click" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Height="17" Margin="0,23.6,0,0"/>
@@ -155,6 +157,9 @@
         <Label Content="B" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.534,0.539" Grid.Column="3" Grid.Row="19" Grid.RowSpan="2" Height="25" Width="40" Margin="10,0,0,0"/>
         <Label Content="Reflection" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.539" Grid.Column="0" Grid.Row="19" Grid.RowSpan="2"/>
 
+        <Label Content="Shiness" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.534,0.539" Grid.Column="0" Grid.Row="20" Grid.RowSpan="2"/>
+        <TextBox x:Name="shinessBox" HorizontalAlignment="Left" Height="20"  TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="30.0" MaxLength="7" TextChanged="ChangeColorParamsEvent" Grid.Column="1" Grid.Row="20
+                 " Margin="10,2.4,0,0" Grid.RowSpan="2"/>
 
     </Grid>
 </Window>
