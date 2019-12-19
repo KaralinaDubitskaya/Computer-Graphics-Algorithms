@@ -17,6 +17,7 @@ namespace CGA.models
         public List<Vector3> Normals { get; set; }
         public Bgr24Bitmap normalsTexture { get; set; }
         public Bgr24Bitmap diffuseTexture { get; set; }
+        public Bgr24Bitmap specularTexture { get; set; }
 
         public Model(List<Vector4> points, List<List<Vector3>> faces, List<Vector3> texture, List<Vector3> normal, List<List<Vector3>> triangleFaces)
         {
@@ -68,6 +69,9 @@ namespace CGA.models
             var Points = this.Points.Select(x => x).ToList();
             var Normals = this.Normals.Select(x => x).ToList();
             var obj = new Model(Points, Faces, Textures, Normals, TriangleFaces);
+            obj.diffuseTexture = this.diffuseTexture;
+            obj.normalsTexture = this.normalsTexture;
+            obj.specularTexture = this.specularTexture;
           
             return obj;
         }

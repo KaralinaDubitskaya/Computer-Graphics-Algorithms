@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace CGA.algorithms
 {
-    public  class CoordTransformations
+    public class CoordTransformations
     {
-    
-      
+
+        public static Matrix4x4 ModelWorldMatrix;
 
         public static void  TransformFromWorldToView(Model model, ModelParams modelParams)
         {
@@ -34,8 +34,9 @@ namespace CGA.algorithms
 
         private Matrix4x4 GetWorldMatrix(ModelParams modelParams)
         {
-            return Matrix4x4.CreateScale(modelParams.Scaling) * Matrix4x4.CreateFromYawPitchRoll(modelParams.ModelYaw, modelParams.ModelPitch, modelParams.ModelRoll)
+            ModelWorldMatrix = Matrix4x4.CreateScale(modelParams.Scaling) * Matrix4x4.CreateFromYawPitchRoll(modelParams.ModelYaw, modelParams.ModelPitch, modelParams.ModelRoll)
                 * Matrix4x4.CreateTranslation(modelParams.TranslationX, modelParams.TranslationY, modelParams.TranslationZ);
+            return ModelWorldMatrix;
         }
 
  

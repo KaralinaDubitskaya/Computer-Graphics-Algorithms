@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CGA.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -25,6 +26,11 @@ namespace CGA.algorithms.lighting
             byte b = (byte)Math.Round(color.B * coef);
 
             return Color.FromArgb(255, r, g, b);
+        }
+
+        public Color GetPointColor(Model model, Vector3 texel, Vector3 argNormal)
+        {
+            return Color.FromArgb(255, 0, 0, 0);
         }
     }
 }
