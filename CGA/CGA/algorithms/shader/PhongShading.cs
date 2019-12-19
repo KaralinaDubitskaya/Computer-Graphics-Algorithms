@@ -50,6 +50,8 @@ namespace CGA.algorithms.shader
             // получение самой вершины
             Vector4 point = _model.Points[indexPoint];
 
+            if (!_texturesEnabled) point.W = 1; 
+
             return new Pixel((int)point.X, (int)point.Y, point.Z, 1 / point.W, _color, normal / point.W, texel / point.W);
         }
 
