@@ -19,6 +19,7 @@ using CGA.parser;
 using CGA.utils;
 using CGA.algorithms.lighting;
 using CGA.algorithms.shader;
+using System.IO;
 
 namespace CGA
 {
@@ -45,11 +46,29 @@ namespace CGA
             {
                 string[] fileLines = ObjFileReader.Execute();
                 model = ObjParser.Parse(fileLines);
+                model.diffuseTexture = getBgr24BitmapDiffuse();
+          
             }
             catch
             {
                 MessageBox.Show("Произошла ошибка!");
             }
+        }
+
+        private Bgr24Bitmap getBgr24BitmapDiffuse()
+        {
+            string path = ObjFileReader.getDiffusePath();
+         
+
+            if (File.Exists(path))
+            {
+                BitmapImage imgDiffuse = new BitmapImage(new Uri(path, UriKind.Relative));
+                imgDiffuse.CreateOptions = BitmapCreateOptions.None;
+                var initialWriteableBitmapDiffuse = new WriteableBitmap(imgDiffuse);
+                return new Bgr24Bitmap(initialWriteableBitmapDiffuse);
+            }
+            else
+                return null;
         }
 
         private void DrawButton_Click(object sender, RoutedEventArgs e)
