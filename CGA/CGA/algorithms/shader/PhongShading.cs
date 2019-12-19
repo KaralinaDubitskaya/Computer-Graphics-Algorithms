@@ -44,13 +44,12 @@ namespace CGA.algorithms.shader
             // получение самой вершины
             Vector4 point = _model.Points[indexPoint];
 
-            return new Pixel((int)point.X, (int)point.Y, point.Z, _color, normal, texel);
+            return new Pixel((int)point.X, (int)point.Y, point.Z, 1 / point.W, _color, normal / point.W, texel / point.W);
         }
 
         // Целочисленный алгоритм Брезенхема для отрисовки ребра
         protected override void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
         {
-
             // разница координат начальной и конечной точек
             int dx = Math.Abs(desc.X - src.X);
             int dy = Math.Abs(desc.Y - src.Y);
@@ -61,27 +60,28 @@ namespace CGA.algorithms.shader
             int signY = src.Y < desc.Y ? 1 : -1;
             float signZ = src.Z < desc.Z ? 1 : -1;
 
-            // текущий пиксель
-            Pixel p = src;
-
             float curZ = src.Z;  // текущее z
             float deltaZ = dz / dy;  // при изменении y будем менять z
-
-            // интерполяция нормалей
+            
             Vector3 deltaNormal = (desc.Normal - src.Normal) / dy;
             Vector3 curNormal = src.Normal;
 
-            // интерполяция текстур
             Vector3 deltaTexel = (desc.Texel - src.Texel) / dy;
             Vector3 curTexel = src.Texel;
 
+            float deltaNW = (desc.nW - src.nW) / dy;
+            float curNW = src.nW;
+
             int err = dx - dy;   // ошибка
+
+            // текущий пиксель
+            Pixel p = src;
 
             // пока не достигнем конца
             while (p.X != desc.X || p.Y != desc.Y)
             {
                 // пиксель внутри окна
-                DrawPixel(p.X, p.Y, curZ, curNormal, curTexel, _color, sidesPixels);
+                DrawPixel(p.X, p.Y, curZ, curNW, curNormal, curTexel, _color, sidesPixels);
 
                 int err2 = err * 2;      // модифицированное значение ошибки
 
@@ -100,20 +100,21 @@ namespace CGA.algorithms.shader
 
                     curNormal += deltaNormal;
                     curTexel += deltaTexel;
+                    curNW += deltaNW;
                 }
             }
 
             // отрисовывем последний пиксель
-            DrawPixel(desc.X, desc.Y, desc.Z, desc.Normal, desc.Texel, _color, sidesPixels);
+            DrawPixel(desc.X, desc.Y, desc.Z, desc.nW, desc.Normal, desc.Texel, _color, sidesPixels);
         }
 
-        protected virtual void DrawPixel(int x, int y, float z, Vector3 normal, Vector3 texel, Color color, List<Pixel> sidesPixels = null)
+        protected virtual void DrawPixel(int x, int y, float z, float nw, Vector3 normal, Vector3 texel, Color color, List<Pixel> sidesPixels = null)
         {
             
-            Color pixelColor = _texturesEnabled ? _lighting.GetPointColor(_model, texel, normal) :
+            Color pixelColor = _texturesEnabled ? _lighting.GetPointColor(_model, texel / nw, normal / nw) :
                                                   _lighting.GetPointColor(normal, color);
 
-            sidesPixels.Add(new Pixel(x, y, z, pixelColor, normal, texel));   // добавляеи точку в список граничных точек грани
+            sidesPixels.Add(new Pixel(x, y, z, nw, pixelColor, normal, texel));   // добавляеи точку в список граничных точек грани
 
             if (x > 0 && x < _bitmap.PixelWidth &&
                 y > 0 && y < _bitmap.PixelHeight &&
@@ -144,22 +145,25 @@ namespace CGA.algorithms.shader
                 Vector3 deltaNormal = (end.Normal - start.Normal) / (float)(end.X - start.X);
                 Vector3 curNormal = start.Normal;
 
-
                 Vector3 deltaTexel = (end.Texel - start.Texel) / (float)(end.X - start.X);
                 Vector3 curTexel = start.Texel;
+
+                float deltaNW = (end.nW - start.nW) / (float)(end.X - start.X);
+                float curNW = start.nW;
 
                 // отрисовываем линию
                 for (int x = start.X; x < end.X; x++, z += dz)
                 {
                     curNormal += deltaNormal;
                     curTexel += deltaTexel;
+                    curNW += deltaNW;
 
                     if ((x > 0) && (x < _zBuffer.Width) &&           // x попал в область экрана
                         (y > 0) && (y < _zBuffer.Height) &&          // y попал в область экрана
                         (z <= _zBuffer[x, y]) && (z > 0 && z < 1))   // z координата отображаемая
                     {
                         _zBuffer[x, y] = z;
-                        _bitmap[x, y] = _texturesEnabled ? _lighting.GetPointColor(_model, curTexel, curNormal) :
+                        _bitmap[x, y] = _texturesEnabled ? _lighting.GetPointColor(_model, curTexel / curNW, curNormal / curNW) :
                                                            _lighting.GetPointColor(curNormal, _color);
                     }
                 }
