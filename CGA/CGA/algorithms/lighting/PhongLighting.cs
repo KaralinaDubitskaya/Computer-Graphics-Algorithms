@@ -57,6 +57,48 @@ namespace CGA.algorithms.lighting
         // Refactor
         public Color GetPointColor(Model model, Vector3 texel, Vector3 argNormal)
         {
+            //// в текстуре координатный центр в нижнем левом углу
+            //var x = texel.X * model.diffuseTexture.PixelWidth;
+            //var y = (1 - texel.Y) * model.diffuseTexture.PixelHeight;  
+
+            //// повторение текстуры
+            //x = x % model.diffuseTexture.PixelWidth;
+            //y = y % model.diffuseTexture.PixelHeight;
+
+            //if (x < 0 || y < 0)
+            //{
+            //    return Color.FromArgb(255, 0, 0, 0);
+            //}
+
+            //Vector3 normal = argNormal;
+            //if (model.normalsTexture != null)
+            //{
+            //    normal = model.normalsTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f));
+            //    normal -= new Vector3(127.5f);
+            //    normal = Vector3.Normalize(Vector3.TransformNormal(Vector3.Normalize(normal), CoordTransformations.ModelWorldMatrix));
+            //}
+
+            //// фоновое освещение
+            //var Ia = model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_a;
+            //// рассеянное освещение
+            //var Id = model.diffuseTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_d * 
+            //                                    Math.Max(Vector3.Dot(normal, _lightVector), 0);
+            //// вектор отраженного луча света
+            //var reflectionVector = Vector3.Normalize(Vector3.Reflect(_lightVector, normal));
+            //// зеркальное освещение
+            //Vector3 Is = (model.specularTexture == null) ? new Vector3(0) :
+            //                model.specularTexture.GetRGBVector((int)(x + 0.5f), (int)(y + 0.5f)) * _koef_s 
+            //                * (float)Math.Pow(Math.Max(0, Vector3.Dot(reflectionVector, _viewVector)), _shiness);
+
+            //// совмещение компонентов освещения
+            //var light = Ia + Id + Is;
+
+            //byte r = (byte)Math.Min(light.X, 255);
+            //byte g = (byte)Math.Min(light.Y, 255);
+            //byte b = (byte)Math.Min(light.Z, 255);
+
+            //return Color.FromArgb(255, r, g, b);
+
             var x = texel.X * model.diffuseTexture.PixelWidth;
             var y = (1 - texel.Y) * model.diffuseTexture.PixelHeight;
 
