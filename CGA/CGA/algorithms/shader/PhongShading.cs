@@ -58,6 +58,8 @@ namespace CGA.algorithms.shader
         // Целочисленный алгоритм Брезенхема для отрисовки ребра
         protected override void DrawLine(Pixel src, Pixel desc, List<Pixel> sidesPixels = null)
         {
+            bool sameX = Math.Abs(src.X - desc.X) < Math.Abs(desc.Y - src.Y);
+
             // разница координат начальной и конечной точек
             int dx = Math.Abs(desc.X - src.X);
             int dy = Math.Abs(desc.Y - src.Y);
@@ -70,15 +72,34 @@ namespace CGA.algorithms.shader
 
             float curZ = src.Z;  // текущее z
             float deltaZ = dz / dy;  // при изменении y будем менять z
-            
-            Vector3 deltaNormal = (desc.Normal - src.Normal) / dy;
-            Vector3 curNormal = src.Normal;
 
-            Vector3 deltaTexel = (desc.Texel - src.Texel) / dy;
-            Vector3 curTexel = src.Texel;
 
-            float deltaNW = (desc.nW - src.nW) / dy;
-            float curNW = src.nW;
+            Vector3 deltaNormal, curNormal;
+            Vector3 deltaTexel, curTexel;
+            float deltaNW, curNW;
+
+            if (sameX)
+            {
+                deltaNormal = (desc.Normal - src.Normal) / dy;
+                curNormal = src.Normal;
+
+                deltaTexel = (desc.Texel - src.Texel) / dy;
+                curTexel = src.Texel;
+
+                deltaNW = (desc.nW - src.nW) / dy;
+                curNW = src.nW;
+            }
+            else
+            {
+                deltaNormal = (desc.Normal - src.Normal) / dx;
+                curNormal = src.Normal;
+
+                deltaTexel = (desc.Texel - src.Texel) / dx;
+                curTexel = src.Texel;
+
+                deltaNW = (desc.nW - src.nW) / dx;
+                curNW = src.nW;
+            }
 
             int err = dx - dy;   // ошибка
 
@@ -97,6 +118,13 @@ namespace CGA.algorithms.shader
                 {
                     p.X += signX;        // изменияем x на единицу
                     err -= dy;           // корректируем ошибку
+
+                    if (!sameX)
+                    {
+                        curNormal += deltaNormal;
+                        curTexel += deltaTexel;
+                        curNW += deltaNW;
+                    }
                 }
 
                 if (err2 < dx)
@@ -105,10 +133,12 @@ namespace CGA.algorithms.shader
                     curZ += signZ * deltaZ;  // меняем z
                     err += dx;               // корректируем ошибку   
 
-
-                    curNormal += deltaNormal;
-                    curTexel += deltaTexel;
-                    curNW += deltaNW;
+                    if (sameX)
+                    {
+                        curNormal += deltaNormal;
+                        curTexel += deltaTexel;
+                        curNW += deltaNW;
+                    }
                 }
             }
 
