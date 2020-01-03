@@ -1,1 +1,1 @@
-# -omputer-Graphics-Algorithms
+# Computer-Graphics-Algorithms
