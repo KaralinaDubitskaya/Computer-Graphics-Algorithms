@@ -124,7 +124,7 @@ namespace CGA
                     {
 
                         Color color = Color.FromRgb(byte.Parse(colorRTextBox.Text), byte.Parse(colorGTextBox.Text), byte.Parse(colorBTextBox.Text));
-                        Vector3 lighting = new Vector3(int.Parse(lightVectorXTextBox.Text), int.Parse(lightVectorYTextBox.Text), int.Parse(lightVectorZTextBox.Text));
+                        Vector3 lighting = new Vector3(int.Parse(lightVectorXTextBox.Text), int.Parse(lightVectorYTextBox.Text), -int.Parse(lightVectorZTextBox.Text));
 
                         if (bresenhamRadioButton.IsChecked == true)
                         {
@@ -225,6 +225,10 @@ namespace CGA
 
         }
 
+        private void CameraRollSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
 
         private ModelParams GetModelsParams()
         {
